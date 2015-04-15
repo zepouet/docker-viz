@@ -61,5 +61,5 @@ func Default() string {
 			dockerImagesFils["Docker"] = append(dockerImagesFils["Docker"], image.Id)
 		}
 	}
-	return  makeJson(dockerImagesFils["Docker"], dockerImagesFils, dockerImagesList)
+	return  "{\"name\": \"Docker\", \"children\": [{" + makeJson(dockerImagesFils["Docker"], dockerImagesFils, dockerImagesList) + "]}"
 }
