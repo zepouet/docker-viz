@@ -14,8 +14,12 @@ type DockerImage struct {
 	VirtualSize int64
 }
 
-func generateDockerImageList() map[string]DockerImage {
-	docker, _ := dockerclient.NewDockerClient("unix:///var/run/docker.sock", nil)
+type Flare interface {
+	Dendrogam() string;
+}
+
+func GenerateDockerImageList(dockerClient string) map[string]DockerImage {
+	docker, _ := dockerclient.NewDockerClient(dockerClient, nil)
 
 	containers, err := docker.ListImages()
 	if err != nil {
@@ -30,28 +34,28 @@ func generateDockerImageList() map[string]DockerImage {
 	return images
 }
 
-func makeJson(imagesFilsList []string, dockerImagesFils map[string][]string, dockerImagesList map[string]DockerImage) string {
+func MakeJson(imagesFilsList []string, dockerImagesFils map[string][]string, dockerImagesList map[string]DockerImage) string {
 	var flare string
 	nbFils := len(imagesFilsList)
 	var i int = 0
 	for _, image := range imagesFilsList {
 		i++
 		if _, ok := dockerImagesFils[image]; ok {
-			flare = flare + "{\"name\": \"" + dockerImagesList[image].Name + "\", \"children\": ["
-			flare = flare + makeJson(dockerImagesFils[image], dockerImagesFils, dockerImagesList) + "]}"
+			flare += "{\"name\": \"" + dockerImagesList[image].Name + "\", \"children\": ["
+			flare += MakeJson(dockerImagesFils[image], dockerImagesFils, dockerImagesList) + "]}"
 		} else {
-			flare = flare + "{\"name\": \"" + dockerImagesList[image].Name + "\"}"
+			flare += "{\"name\": \"" + dockerImagesList[image].Name + "\"}"
 		}
 		if i < nbFils {
-			flare = flare + ", "
+			flare += ", "
 		}
 	}
 
 	return flare
 }
 
-func Default() string {
-	dockerImagesList := generateDockerImageList()
+func Dendrogam(dockerClient string) string{
+	dockerImagesList := GenerateDockerImageList(dockerClient)
 	dockerImagesFils := make(map[string][]string)
 
 	for _, image := range dockerImagesList {
@@ -61,5 +65,5 @@ func Default() string {
 			dockerImagesFils["Docker"] = append(dockerImagesFils["Docker"], image.Id)
 		}
 	}
-	return  "{\"name\": \"Docker\", \"children\": [" + makeJson(dockerImagesFils["Docker"], dockerImagesFils, dockerImagesList) + "]}"
+	return  "{\"name\": \"Docker\", \"children\": [" + MakeJson(dockerImagesFils["Docker"], dockerImagesFils, dockerImagesList) + "]}"
 }
