@@ -21,6 +21,7 @@ type Flare interface {
 func GenerateDockerImageList(dockerClient string) map[string]DockerImage {
 	docker, _ := dockerclient.NewDockerClient(dockerClient, nil)
 
+
 	containers, err := docker.ListImages()
 	if err != nil {
 		log.Fatal(err)
