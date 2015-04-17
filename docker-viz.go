@@ -4,20 +4,20 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tomazk/envcfg"
 	"net/http"
-	"docker-viz/flare"
 	"strconv"
+	"docker-viz/flare"
 )
 
 type Config struct {
 	VIZ_PORT int
-	DOCKER_CLIENT string
+	DOCKER_HOST string
 }
 
 func LoadConfig() (int, string){
 	var cfg Config
 	envcfg.Unmarshal(&cfg)
 	vizPort :=  cfg.VIZ_PORT
-	dockerClient := cfg.DOCKER_CLIENT
+	dockerClient := cfg.DOCKER_HOST
 
 	if vizPort == 0 {
 		vizPort = 8080
@@ -39,8 +39,13 @@ func main() {
 		c.HTML(http.StatusOK, "dendrogam.tmpl", obj)
 	})
 
+	r.GET("/buble", func(c *gin.Context) {
+		obj := gin.H{"title": "Buble"}
+		c.HTML(http.StatusOK, "buble.tmpl", obj)
+	})
+
 	r.GET("/flare.json", func(c *gin.Context) {
-		c.String(http.StatusOK, flare.Dendrogam(dockerClient))
+		c.String(http.StatusOK, flare.Dendrogam(&dockerClient))
 	})
 
 	// Listen and server on 0.0.0.0:8080
