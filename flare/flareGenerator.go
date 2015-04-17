@@ -18,34 +18,33 @@ type Flare interface {
 	Dendrogam() string;
 }
 
-func GenerateDockerImageList(dockerClient string) map[string]DockerImage {
-	docker, _ := dockerclient.NewDockerClient(dockerClient, nil)
-
+func GenerateDockerImageList(dockerClient *string) map[string]dockerclient.Image {
+	docker, _ := dockerclient.NewDockerClient(*dockerClient, nil)
 
 	containers, err := docker.ListImages()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	images := make(map[string]DockerImage)
+	images := make(map[string]dockerclient.Image)
 	for _, c := range containers {
-		images[c.Id] = DockerImage{c.Id, c.ParentId, c.RepoTags[0], c.Created, c.Size, c.VirtualSize}
+		images[c.Id] = *c
 	}
 
 	return images
 }
 
-func MakeJson(imagesFilsList []string, dockerImagesFils map[string][]string, dockerImagesList map[string]DockerImage) string {
+func MakeJson(imagesFilsList []string, dockerImagesFils map[string][]string, dockerImagesList map[string]dockerclient.Image) string {
 	var flare string
 	nbFils := len(imagesFilsList)
 	var i int = 0
 	for _, image := range imagesFilsList {
 		i++
 		if _, ok := dockerImagesFils[image]; ok {
-			flare += "{\"name\": \"" + dockerImagesList[image].Name + "\", \"children\": ["
+			flare += "{\"name\": \"" + dockerImagesList[image].RepoTags[0] + "\", \"children\": ["
 			flare += MakeJson(dockerImagesFils[image], dockerImagesFils, dockerImagesList) + "]}"
 		} else {
-			flare += "{\"name\": \"" + dockerImagesList[image].Name + "\"}"
+			flare += "{\"name\": \"" + dockerImagesList[image].RepoTags[0] + "\"}"
 		}
 		if i < nbFils {
 			flare += ", "
@@ -55,7 +54,7 @@ func MakeJson(imagesFilsList []string, dockerImagesFils map[string][]string, doc
 	return flare
 }
 
-func Dendrogam(dockerClient string) string{
+func Dendrogam(dockerClient *string) string{
 	dockerImagesList := GenerateDockerImageList(dockerClient)
 	dockerImagesFils := make(map[string][]string)
 
