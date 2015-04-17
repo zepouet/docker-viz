@@ -33,11 +33,13 @@ func TestInitImagesAndContainers(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	assert.Equal(t, len(images), 48)
+
 	containers, err := docker.ListContainers(true, true, "")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	assert.Equal(t, len(images), 48)
 	assert.Equal(t, len(containers), 13)
 }
