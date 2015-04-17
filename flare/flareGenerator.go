@@ -3,16 +3,8 @@ package flare
 import (
 	"github.com/samalba/dockerclient"
 	"log"
+	"strconv"
 )
-
-type DockerImage struct {
-	Id string
-	ParentId string
-	Name string
-	Create int64
-	Size int64
-	VirtualSize int64
-}
 
 type Flare interface {
 	Dendrogam() string;
@@ -44,7 +36,8 @@ func MakeJson(imagesFilsList []string, dockerImagesFils map[string][]string, doc
 			flare += "{\"name\": \"" + dockerImagesList[image].RepoTags[0] + "\", \"children\": ["
 			flare += MakeJson(dockerImagesFils[image], dockerImagesFils, dockerImagesList) + "]}"
 		} else {
-			flare += "{\"name\": \"" + dockerImagesList[image].RepoTags[0] + "\"}"
+			virtualSize := strconv.Itoa(dockerImagesList[image].VirtualSize)
+			flare += "{\"name\": \"" + dockerImagesList[image].RepoTags[0] + "\", \"size\": " + virtualSize + "}"
 		}
 		if i < nbFils {
 			flare += ", "
