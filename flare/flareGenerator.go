@@ -1,4 +1,4 @@
-package main
+package flare
 
 import (
 	"github.com/samalba/dockerclient"
