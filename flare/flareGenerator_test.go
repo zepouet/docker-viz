@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"os"
 	"log"
+	"strings"
 )
 
 var dockerClient string
@@ -48,11 +49,23 @@ func TestInitImagesAndContainers(t *testing.T) {
 
 }
 
-func TestGenerateDockerImageList(t *testing.T) {
+func TestGenerateDockerImageAndJson(t *testing.T) {
 	images := GenerateDockerImageList(&dockerClient)
 	assert.Equal(t, len(images), 48)
 
 	childs := GenerateDockerImageChild(images)
 	assert.Equal(t, len(childs), 12)
 	assert.Equal(t, len(childs["Docker"]), 1)
+
+	json := MakeJson("Docker", childs, images)
+	assert.Equal(t, len(json), 2210)
+	assert.Equal(t, strings.Count(json, "["), strings.Count(json, "]"))
+	assert.Equal(t, strings.Count(json, "{"), strings.Count(json, "}"))
+	assert.Equal(t, strings.Count(json, "\\"), 0)
+
+	dendrogam := Dendrogam(&dockerClient)
+	assert.Equal(t, len(dendrogam), len(json)+34)
+	assert.Equal(t, strings.Count(dendrogam, "["), strings.Count(dendrogam, "]"))
+	assert.Equal(t, strings.Count(dendrogam, "{"), strings.Count(dendrogam, "}"))
+	assert.Equal(t, strings.Count(dendrogam, "\\"), 0)
 }
