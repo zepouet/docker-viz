@@ -43,9 +43,9 @@ func main() {
 		c.HTML(http.StatusOK, "dendrogam.tmpl", obj)
 	})
 
-	r.GET("/buble", func(c *gin.Context) {
+	r.GET("/bubble", func(c *gin.Context) {
 		obj := gin.H{"title": "Buble"}
-		c.HTML(http.StatusOK, "buble.tmpl", obj)
+		c.HTML(http.StatusOK, "bubble.tmpl", obj)
 	})
 
 	r.GET("/flare.json", func(c *gin.Context) {
