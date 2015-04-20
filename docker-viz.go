@@ -5,7 +5,7 @@ import (
 	"github.com/tomazk/envcfg"
 	"net/http"
 	"strconv"
-	"docker-viz/flare"
+	"github.com/Treeptik/docker-viz/flare"
 )
 
 type (
