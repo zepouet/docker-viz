@@ -6,10 +6,13 @@ import (
 	"strconv"
 )
 
-type Flare interface {
-	Dendrogam() string;
-}
+type(
+	Flare interface {
+		Dendrogam() string;
+	}
+)
 
+// Load all image information clone and commit in Docker
 func GenerateDockerImageList(dockerClient *string) map[string]dockerclient.Image {
 	docker, _ := dockerclient.NewDockerClient(*dockerClient, nil)
 
@@ -26,6 +29,7 @@ func GenerateDockerImageList(dockerClient *string) map[string]dockerclient.Image
 	return images
 }
 
+// Creating Association father/son
 func GenerateDockerImageChild(dockerImagesList map[string]dockerclient.Image) map[string][]string {
 	dockerImagesChilds := make(map[string][]string)
 	for _, image := range dockerImagesList {
@@ -39,6 +43,7 @@ func GenerateDockerImageChild(dockerImagesList map[string]dockerclient.Image) ma
 	return dockerImagesChilds
 }
 
+// Create the json architecture with father/son table
 func MakeJson(imageName string, dockerImagesFils map[string][]string, dockerImagesList map[string]dockerclient.Image) string {
 	var flare string
 	nbFils := len(dockerImagesFils[imageName])
@@ -60,6 +65,7 @@ func MakeJson(imageName string, dockerImagesFils map[string][]string, dockerImag
 	return flare
 }
 
+// Returns the full json for Dendrogam diagram
 func Dendrogam(dockerClient *string) string {
 	dockerImagesList := GenerateDockerImageList(dockerClient)
 	dockerImagesChilds := GenerateDockerImageChild(dockerImagesList)

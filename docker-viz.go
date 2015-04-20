@@ -7,11 +7,15 @@ import (
 	"strconv"
 )
 
-type Config struct {
-	VIZ_PORT int
-	DOCKER_HOST string
-}
+type (
+	// Represents the system environment variable used for config docker-viz
+	Config struct {
+		VIZ_PORT int
+		DOCKER_HOST string
+	}
+)
 
+// Load the system environment variable
 func LoadConfig() (int, string){
 	var cfg Config
 	envcfg.Unmarshal(&cfg)
