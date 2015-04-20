@@ -1,4 +1,4 @@
-package flare
+package viz
 
 import (
 	"github.com/samalba/dockerclient"
