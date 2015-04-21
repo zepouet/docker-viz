@@ -49,7 +49,7 @@ func main() {
 	})
 
 	r.GET("/flare.json", func(c *gin.Context) {
-		c.String(http.StatusOK, flare.Dendrogam(&dockerClient))
+		c.String(http.StatusOK, flare.DendrogamAndBubbleImages(&dockerClient))
 	})
 
 	// Listen and server on 0.0.0.0:8080

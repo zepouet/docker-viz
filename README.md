@@ -19,7 +19,7 @@ VIZ_PORT #default value : 8080
 ## Visualization type implemented
 ### Docker Images
 - [x] Tree visualization sort by father/son
-- [ ] Bubble visualization sort by Parent & virtual size
+- [x] Bubble visualization sort by Parent & virtual size
 
 ### Docker Containers
 - [ ] Bubble visualization sort by images & size,ram,uptime

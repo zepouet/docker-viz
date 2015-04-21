@@ -8,7 +8,7 @@ import (
 
 type(
 	Flare interface {
-		Dendrogam() string;
+		DendrogamAndBubbleImages() string;
 	}
 )
 
@@ -65,8 +65,8 @@ func MakeJson(imageName string, dockerImagesFils map[string][]string, dockerImag
 	return flare
 }
 
-// Returns the full json for Dendrogam diagram
-func Dendrogam(dockerClient *string) string {
+// Returns the full json for docker images Dendrogam & bubble diagram
+func DendrogamAndBubbleImages(dockerClient *string) string {
 	dockerImagesList := GenerateDockerImageList(dockerClient)
 	dockerImagesChilds := GenerateDockerImageChild(dockerImagesList)
 
