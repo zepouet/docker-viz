@@ -7,7 +7,7 @@ import (
 )
 
 type(
-	Flare interface {
+	FlareImages interface {
 		DendrogamAndBubbleImages() string;
 	}
 )

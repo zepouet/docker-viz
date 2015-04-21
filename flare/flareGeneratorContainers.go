@@ -6,12 +6,12 @@ import (
 )
 
 type(
-	Flare interface {
+	FlareContainers interface {
 		BubbleContainers() string;
 	}
 )
 
-// Load all image information clone and commit in Docker
+// Load all containers information in Docker
 func GenerateDockerContainerList(dockerClient *string) map[string]dockerclient.Container {
 	docker, _ := dockerclient.NewDockerClient(*dockerClient, nil)
 
@@ -22,13 +22,8 @@ func GenerateDockerContainerList(dockerClient *string) map[string]dockerclient.C
 
 	containers := make(map[string]dockerclient.Container)
 	for _, c := range listContainers {
-		containers[c.Id] = *c
+		containers[c.Id] = c
 	}
 
 	return containers
-}
-
-// Returns the full json for docker containers bubble diagram
-func BubbleContainers(dockerClient *string) string {
-	return false
 }
