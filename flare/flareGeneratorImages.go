@@ -44,7 +44,7 @@ func GenerateDockerImageChild(dockerImagesList map[string]dockerclient.Image) ma
 }
 
 // Create the json architecture with father/son table
-func MakeJson(imageName string, dockerImagesFils map[string][]string, dockerImagesList map[string]dockerclient.Image) string {
+func MakeJsonImages(imageName string, dockerImagesFils map[string][]string, dockerImagesList map[string]dockerclient.Image) string {
 	var flare string
 	nbFils := len(dockerImagesFils[imageName])
 	var i int = 0
@@ -52,7 +52,7 @@ func MakeJson(imageName string, dockerImagesFils map[string][]string, dockerImag
 		i++
 		if _, ok := dockerImagesFils[image]; ok {
 			flare += "{\"name\": \"" + dockerImagesList[image].RepoTags[0] + "\", \"children\": ["
-			flare += MakeJson(image, dockerImagesFils, dockerImagesList) + "]}"
+			flare += MakeJsonImages(image, dockerImagesFils, dockerImagesList) + "]}"
 		} else {
 			virtualSize := strconv.Itoa(int(dockerImagesList[image].VirtualSize))
 			flare += "{\"name\": \"" + dockerImagesList[image].RepoTags[0] + "\", \"size\": " + virtualSize + "}"
@@ -70,5 +70,5 @@ func DendrogamAndBubbleImages(dockerClient *string) string {
 	dockerImagesList := GenerateDockerImageList(dockerClient)
 	dockerImagesChilds := GenerateDockerImageChild(dockerImagesList)
 
-	return  "{\"name\": \"Docker\", \"children\": [" + MakeJson("Docker", dockerImagesChilds, dockerImagesList) + "]}"
+	return  "{\"name\": \"Docker\", \"children\": [" + MakeJsonImages("Docker", dockerImagesChilds, dockerImagesList) + "]}"
 }

@@ -57,7 +57,7 @@ func TestGenerateDockerImageAndJson(t *testing.T) {
 	assert.Equal(t, len(childs), 12)
 	assert.Equal(t, len(childs["Docker"]), 1)
 
-	json := MakeJson("Docker", childs, images)
+	json := MakeJsonImages("Docker", childs, images)
 	assert.Equal(t, len(json), 2210)
 	assert.Equal(t, strings.Count(json, "["), strings.Count(json, "]"))
 	assert.Equal(t, strings.Count(json, "{"), strings.Count(json, "}"))
