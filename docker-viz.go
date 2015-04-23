@@ -40,17 +40,17 @@ func main() {
 	r.LoadHTMLGlob("templates/*")
 	r.GET("/", func(c *gin.Context) {
 		obj := gin.H{"title": "Main website"}
-		c.HTML(http.StatusOK, "dendrogam.tmpl", obj)
+		c.HTML(http.StatusOK, "dendrogam.tpl", obj)
 	})
 
 	r.GET("/ibubble", func(c *gin.Context) {
 		obj := gin.H{"title": "Buble"}
-		c.HTML(http.StatusOK, "bubble.tmpl", obj)
+		c.HTML(http.StatusOK, "bubble.tpl", obj)
 	})
 
 	r.GET("/cbubble", func(c *gin.Context) {
 		//obj := gin.H{"title": "Buble"}
-		//c.HTML(http.StatusOK, "bubble.tmpl", obj)
+		//c.HTML(http.StatusOK, "bubble.tpl", obj)
 		c.String(http.StatusOK, flare.BubbleContainers(&dockerClient))
 	})
 
