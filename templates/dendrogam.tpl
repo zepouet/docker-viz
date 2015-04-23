@@ -39,7 +39,7 @@
             .append("g")
             .attr("transform", "translate(50,0)");
 
-    d3.json("flare.json", function(error, root) {
+    d3.json("/flare/{{ .type }}/json", function(error, root) {
         var nodes = cluster.nodes(root),
                 links = cluster.links(nodes);
 

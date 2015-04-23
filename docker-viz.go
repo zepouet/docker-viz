@@ -38,24 +38,39 @@ func main() {
 
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
+
 	r.GET("/", func(c *gin.Context) {
 		obj := gin.H{"title": "Main website"}
+		c.HTML(http.StatusOK, "index.tpl", obj)
+	})
+
+	r.GET("/dendrogam", func(c *gin.Context) {
+		obj := gin.H{"title": "Dendrogam Images", "type": "images"}
 		c.HTML(http.StatusOK, "dendrogam.tpl", obj)
 	})
 
-	r.GET("/ibubble", func(c *gin.Context) {
-		obj := gin.H{"title": "Buble"}
-		c.HTML(http.StatusOK, "bubble.tpl", obj)
+	r.GET("/bubble/:name", func(c *gin.Context) {
+		switch name := c.Params.ByName("name"); name {
+			case "images":
+				obj := gin.H{"title": "Buble Container", "type": name}
+				c.HTML(http.StatusOK, "bubble.tpl", obj)
+			case "containers":
+				obj := gin.H{"title": "Buble Container", "type": name}
+				c.HTML(http.StatusOK, "bubble.tpl", obj)
+			default:
+			c.String(http.StatusInternalServerError, "500 Internal Server Error")
+		}
 	})
 
-	r.GET("/cbubble", func(c *gin.Context) {
-		//obj := gin.H{"title": "Buble"}
-		//c.HTML(http.StatusOK, "bubble.tpl", obj)
-		c.String(http.StatusOK, flare.BubbleContainers(&dockerClient))
-	})
-
-	r.GET("/flare.json", func(c *gin.Context) {
-		c.String(http.StatusOK, flare.DendrogamAndBubbleImages(&dockerClient))
+	r.GET("/flare/:name/json", func(c *gin.Context) {
+		switch name := c.Params.ByName("name"); name {
+			case "images":
+				c.String(http.StatusOK, flare.DendrogamAndBubbleImages(&dockerClient))
+			case "containers":
+				c.String(http.StatusOK, flare.BubbleContainers(&dockerClient))
+			default:
+				c.String(http.StatusInternalServerError, "500 Internal Server Error")
+		}
 	})
 
 	// Listen and server on 0.0.0.0:8080
