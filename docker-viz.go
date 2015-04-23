@@ -39,6 +39,7 @@ func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
 
+	// index page
 	r.GET("/", func(c *gin.Context) {
 		obj := gin.H{"title": "Main website"}
 		c.HTML(http.StatusOK, "index.tpl", obj)
@@ -73,6 +74,6 @@ func main() {
 		}
 	})
 
-	// Listen and server on 0.0.0.0:8080
+	// start server
 	r.Run(":" + strconv.Itoa(vizPort))
 }
