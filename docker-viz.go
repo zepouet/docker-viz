@@ -60,9 +60,9 @@ func main() {
 		var obj gin.H
 		switch name := c.Params.ByName("name"); name {
 			case "images":
-				obj = gin.H{"title": "Buble Container", "type": name}
+				obj = gin.H{"title": "Buble Container", "type": "images"}
 			case "containers":
-				obj = gin.H{"title": "Buble Container", "type": name}
+				obj = gin.H{"title": "Buble Container", "type": "containers"}
 			default:
 			c.String(http.StatusNotFound, "404 page not found")
 		}
