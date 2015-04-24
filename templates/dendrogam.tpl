@@ -1,27 +1,4 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="utf-8">
-    <title>{{ .title }}</title>
-    <style>
-        .node circle {
-            fill: #fff;
-            stroke: steelblue;
-            stroke-width: 1.5px;
-        }
-
-        .node {
-            font: 10px sans-serif;
-        }
-
-        .link {
-            fill: none;
-            stroke: #ccc;
-            stroke-width: 1.5px;
-        }
-    </style>
-</head>
-<body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+{{define "content"}}
 <script>
 
     var width = 960,
@@ -66,5 +43,4 @@
     });
     d3.select(self.frameElement).style("height", height + "px");
 </script>
-</body>
-</html>
+{{end}}

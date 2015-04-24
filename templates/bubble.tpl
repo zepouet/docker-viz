@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<head>
-    <title>{{ .title }}</title>
-    <meta charset="utf-8">
-    <style>
-        text {
-            font: 10px sans-serif;
-        }
-    </style>
-</head>
-<body>
-<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+{{define "content"}}
 <script>
     $(document).ready(function() {
         loadD3JSon()
@@ -37,7 +25,7 @@
             .attr("height", diameter)
             .attr("class", "bubble");
 
-        d3.json("flare/{{ .type }}/json", function(error, root) {
+        d3.json("/flare/{{ .type }}/json", function(error, root) {
             var node = svg.selectAll(".node")
                 .data(bubble.nodes(classes(root))
                         .filter(function(d) { return !d.children; }))
@@ -74,3 +62,4 @@
         d3.select(self.frameElement).style("height", diameter + "px");
     }
 </script>
+{{end}}

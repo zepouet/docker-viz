@@ -37,6 +37,9 @@ func main() {
 	vizPort, dockerClient := LoadConfig()
 
 	r := gin.Default()
+	r.Static("/images", "./asset/images")
+	r.Static("/js", "./asset/js")
+	r.Static("/css", "./asset/css")
 	r.LoadHTMLGlob("templates/*")
 
 	// index page
