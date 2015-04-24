@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 	"github.com/Treeptik/docker-viz/flare"
+	"html/template"
 )
 
 type (
@@ -40,30 +41,33 @@ func main() {
 	r.Static("/images", "./asset/images")
 	r.Static("/js", "./asset/js")
 	r.Static("/css", "./asset/css")
-	r.LoadHTMLGlob("templates/*")
+	var baseTemplate = "templates/"
 
 	// index page
 	r.GET("/", func(c *gin.Context) {
-		obj := gin.H{"title": "Main website"}
-		c.HTML(http.StatusOK, "index.tpl", obj)
+		obj := gin.H{"title": "Index"}
+		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "index.tpl")))
+		c.HTML(http.StatusOK, "base", obj)
 	})
 
 	r.GET("/dendrogam", func(c *gin.Context) {
 		obj := gin.H{"title": "Dendrogam Images", "type": "images"}
-		c.HTML(http.StatusOK, "dendrogam.tpl", obj)
+		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "dendrogam.tpl")))
+		c.HTML(http.StatusOK, "base", obj)
 	})
 
 	r.GET("/bubble/:name", func(c *gin.Context) {
+		var obj gin.H
 		switch name := c.Params.ByName("name"); name {
 			case "images":
-				obj := gin.H{"title": "Buble Container", "type": name}
-				c.HTML(http.StatusOK, "bubble.tpl", obj)
+				obj = gin.H{"title": "Buble Container", "type": name}
 			case "containers":
-				obj := gin.H{"title": "Buble Container", "type": name}
-				c.HTML(http.StatusOK, "bubble.tpl", obj)
+				obj = gin.H{"title": "Buble Container", "type": name}
 			default:
-			c.String(http.StatusInternalServerError, "500 Internal Server Error")
+			c.String(http.StatusNotFound, "404 page not found")
 		}
+		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "bubble.tpl")))
+		c.HTML(http.StatusOK, "base", obj)
 	})
 
 	r.GET("/flare/:name/json", func(c *gin.Context) {
@@ -73,7 +77,7 @@ func main() {
 			case "containers":
 				c.String(http.StatusOK, flare.BubbleContainers(&dockerClient))
 			default:
-				c.String(http.StatusInternalServerError, "500 Internal Server Error")
+				c.String(http.StatusNotFound, "404 page not found")
 		}
 	})
 
