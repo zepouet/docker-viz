@@ -52,7 +52,8 @@ func main() {
 
 	r.GET("/dendrogam", func(c *gin.Context) {
 		obj := gin.H{"title": "Dendrogam Images", "type": "images"}
-		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "dendrogam.tpl")))
+		html := template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "dendrogam.tpl"))
+		r.SetHTMLTemplate(html)
 		c.HTML(http.StatusOK, "base", obj)
 	})
 
@@ -60,9 +61,9 @@ func main() {
 		var obj gin.H
 		switch name := c.Params.ByName("name"); name {
 			case "images":
-				obj = gin.H{"title": "Buble Container", "type": "images"}
+				obj = gin.H{"title": "Buble Container", "type": name}
 			case "containers":
-				obj = gin.H{"title": "Buble Container", "type": "containers"}
+				obj = gin.H{"title": "Buble Container", "type": name}
 			default:
 			c.String(http.StatusNotFound, "404 page not found")
 		}

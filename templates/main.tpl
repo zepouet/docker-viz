@@ -11,7 +11,7 @@
         <script src="/js/jquery-1.11.2.min.js"></script>
     </head>
     <body>
-        {{template "content"}}
+        {{ template "content" .}}
     </body>
 </html>
 {{end}}
