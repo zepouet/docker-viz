@@ -3,10 +3,8 @@ package flare
 import (
 	"testing"
 
-	"github.com/samalba/dockerclient"
 	"github.com/stretchr/testify/assert"
 	"os/exec"
-	"os"
 	"log"
 	"strings"
 )
