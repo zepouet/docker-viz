@@ -14,11 +14,6 @@ import (
 var docker string
 
 func init() {
-	docker = os.Getenv("DOCKER_HOST")
-	if docker == "" {
-		docker = "unix:///var/run/docker.sock"
-	}
-
 	_, err := exec.Command("./dockerInit.sh").Output()
 	if err != nil {
 		log.Fatalf("Init: %s", err)
@@ -27,11 +22,7 @@ func init() {
 }
 
 func TestInit(t *testing.T) {
-
-	docker, err := dockerclient.NewDockerClient(docker, nil)
-	if err != nil {
-		t.Fatal("Cannot init the docker client")
-	}
+	docker := DockerEngineConnection()
 
 	images, err := docker.ListImages()
 	if err != nil {
@@ -46,11 +37,10 @@ func TestInit(t *testing.T) {
 	}
 
 	assert.Equal(t, len(containers), 13)
-
 }
 
 func TestGenerateDockerContainerAndJson(t *testing.T) {
-	containers := GenerateDockerContainerList(&docker)
+	containers := GenerateDockerContainerList()
 	assert.Equal(t, len(containers), 13)
 
 	json := MakeJsonContainers(containers)
@@ -58,7 +48,7 @@ func TestGenerateDockerContainerAndJson(t *testing.T) {
 	assert.Equal(t, strings.Count(json, "{"), strings.Count(json, "}"))
 	assert.Equal(t, strings.Count(json, "\\"), 0)
 
-	bubble := BubbleContainers(&dockerClient)
+	bubble := BubbleContainers()
 	assert.Equal(t, len(bubble), len(json)+34)
 	assert.Equal(t, strings.Count(bubble, "["), strings.Count(bubble, "]"))
 	assert.Equal(t, strings.Count(bubble, "{"), strings.Count(bubble, "}"))

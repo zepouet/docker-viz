@@ -14,11 +14,6 @@ import (
 var dockerClient string
 
 func init() {
-	dockerClient = os.Getenv("DOCKER_HOST")
-	if dockerClient == "" {
-		dockerClient = "unix:///var/run/docker.sock"
-	}
-
 	_, err := exec.Command("./dockerInit.sh").Output()
 	if err != nil {
 		log.Fatalf("Init: %s", err)
@@ -28,10 +23,7 @@ func init() {
 
 func TestInitImagesAndContainers(t *testing.T) {
 
-	docker, err := dockerclient.NewDockerClient(dockerClient, nil)
-	if err != nil {
-		t.Fatal("Cannot init the docker client")
-	}
+	docker := DockerEngineConnection()
 
 	images, err := docker.ListImages()
 	if err != nil {
@@ -50,7 +42,7 @@ func TestInitImagesAndContainers(t *testing.T) {
 }
 
 func TestGenerateDockerImageAndJson(t *testing.T) {
-	images := GenerateDockerImageList(&dockerClient)
+	images := GenerateDockerImageList()
 	assert.Equal(t, len(images), 48)
 
 	childs := GenerateDockerImageChild(images)
@@ -63,7 +55,7 @@ func TestGenerateDockerImageAndJson(t *testing.T) {
 	assert.Equal(t, strings.Count(json, "{"), strings.Count(json, "}"))
 	assert.Equal(t, strings.Count(json, "\\"), 0)
 
-	dendrogam := DendrogamAndBubbleImages(&dockerClient)
+	dendrogam := DendrogamAndBubbleImages()
 	assert.Equal(t, len(dendrogam), len(json)+34)
 	assert.Equal(t, strings.Count(dendrogam, "["), strings.Count(dendrogam, "]"))
 	assert.Equal(t, strings.Count(dendrogam, "{"), strings.Count(dendrogam, "}"))
