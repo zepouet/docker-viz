@@ -2,12 +2,15 @@
 <script>
     $(document).ready(function() {
         loadD3JSon()
-        setInterval(reloadD3JSon, 5000);
+        setInterval(reloadD3JSon, 10000);
     });
 
     function reloadD3JSon() {
-        $('svg').fadeOut(1000).remove()
-        loadD3JSon()
+        $('body').fadeOut("slow", function() {
+            loadD3JSon()
+            $('svg').first().remove()
+            $('body').fadeIn("slow")
+        })
     }
 
     function loadD3JSon() {
