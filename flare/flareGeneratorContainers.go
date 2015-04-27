@@ -13,8 +13,8 @@ type(
 )
 
 // Load all containers information in Docker
-func GenerateDockerContainerList(dockerClient *string) map[string]dockerclient.Container {
-	docker, _ := dockerclient.NewDockerClient(*dockerClient, nil)
+func GenerateDockerContainerList() map[string]dockerclient.Container {
+	docker := DockerEngineConnection()
 
 	// load containers list
 	listContainers, err := docker.ListContainers(true, true, "")
@@ -48,8 +48,8 @@ func MakeJsonContainers(dockerContainerList map[string]dockerclient.Container) s
 }
 
 // Returns the full json for docker containers bubble diagram
-func BubbleContainers(dockerClient *string) string {
-	dockerContainerList := GenerateDockerContainerList(dockerClient)
+func BubbleContainers() string {
+	dockerContainerList := GenerateDockerContainerList()
 
 	return  "{\"name\": \"Docker\", \"children\": [" + MakeJsonContainers(dockerContainerList) + "]}"
 }

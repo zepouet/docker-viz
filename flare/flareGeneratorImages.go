@@ -13,10 +13,9 @@ type(
 )
 
 // Load all image information clone and commit in Docker
-func GenerateDockerImageList(dockerClient *string) map[string]dockerclient.Image {
-	docker, _ := dockerclient.NewDockerClient(*dockerClient, nil)
+func GenerateDockerImageList() map[string]dockerclient.Image {
+	docker := DockerEngineConnection()
 
-	// load images list
 	containers, err := docker.ListImages()
 	if err != nil {
 		log.Fatal(err)
@@ -67,8 +66,8 @@ func MakeJsonImages(imageName string, dockerImagesFils map[string][]string, dock
 }
 
 // Returns the full json for docker images Dendrogam & bubble diagram
-func DendrogamAndBubbleImages(dockerClient *string) string {
-	dockerImagesList := GenerateDockerImageList(dockerClient)
+func DendrogamAndBubbleImages() string {
+	dockerImagesList := GenerateDockerImageList()
 	dockerImagesChilds := GenerateDockerImageChild(dockerImagesList)
 
 	return  "{\"name\": \"Docker\", \"children\": [" + MakeJsonImages("Docker", dockerImagesChilds, dockerImagesList) + "]}"

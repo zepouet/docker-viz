@@ -13,30 +13,25 @@ type (
 	// Represents the system environment variable used for config docker-viz
 	Config struct {
 		VIZ_PORT int
-		DOCKER_HOST string
 	}
 )
 
 // Load the system environment variable
-func LoadConfig() (int, string){
+func LoadConfig() int {
 	var cfg Config
 	envcfg.Unmarshal(&cfg)
 	vizPort :=  cfg.VIZ_PORT
-	dockerClient := cfg.DOCKER_HOST
 
 	// if var not defined, change for defaults values
 	if vizPort == 0 {
 		vizPort = 8080
 	}
-	if dockerClient == "" {
-		dockerClient = "unix:///var/run/docker.sock"
-	}
 
-	return vizPort, dockerClient
+	return vizPort
 }
 
 func main() {
-	vizPort, dockerClient := LoadConfig()
+	vizPort := LoadConfig()
 
 	r := gin.Default()
 
@@ -79,9 +74,9 @@ func main() {
 	r.GET("/flare/:name/json", func(c *gin.Context) {
 		switch name := c.Params.ByName("name"); name {
 			case "images":
-				c.String(http.StatusOK, flare.DendrogamAndBubbleImages(&dockerClient))
+				c.String(http.StatusOK, flare.DendrogamAndBubbleImages())
 			case "containers":
-				c.String(http.StatusOK, flare.BubbleContainers(&dockerClient))
+				c.String(http.StatusOK, flare.BubbleContainers())
 			default:
 				c.String(http.StatusNotFound, "404 page not found")
 		}
