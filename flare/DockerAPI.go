@@ -84,3 +84,14 @@ func LoadDockerContainers() []dockerclient.Container {
 
 	return containers
 }
+
+func LoadDockerContainerInfo(id string) dockerclient.ContainerInfo {
+	docker := DockerEngineConnection()
+
+	container, err := docker.InspectContainer(id)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return container
+}
