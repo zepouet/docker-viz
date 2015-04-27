@@ -2,7 +2,6 @@ package flare
 
 import (
 	"github.com/samalba/dockerclient"
-	"log"
 	"strconv"
 )
 
@@ -14,16 +13,9 @@ type(
 
 // Load all containers information in Docker
 func GenerateDockerContainerList() map[string]dockerclient.Container {
-	docker := DockerEngineConnection()
-
-	// load containers list
-	listContainers, err := docker.ListContainers(true, true, "")
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	containers := make(map[string]dockerclient.Container)
-	for _, c := range listContainers {
+	for _, c := range LoadDockerContainers() {
 		containers[c.Id] = c
 	}
 

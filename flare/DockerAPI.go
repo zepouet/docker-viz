@@ -60,3 +60,27 @@ func DockerEngineConnection() *dockerclient.DockerClient {
 
 	return docker
 }
+
+// load images list
+func LoadDockerImages() []*dockerclient.Image {
+	docker := DockerEngineConnection()
+
+	images, err := docker.ListImages()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return images
+}
+
+// load containers list
+func LoadDockerContainers() []dockerclient.Container {
+	docker := DockerEngineConnection()
+
+	containers, err := docker.ListContainers(true, true, "")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return containers
+}

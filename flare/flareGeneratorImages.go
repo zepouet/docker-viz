@@ -2,7 +2,6 @@ package flare
 
 import (
 	"github.com/samalba/dockerclient"
-	"log"
 	"strconv"
 )
 
@@ -14,15 +13,9 @@ type(
 
 // Load all image information clone and commit in Docker
 func GenerateDockerImageList() map[string]dockerclient.Image {
-	docker := DockerEngineConnection()
-
-	containers, err := docker.ListImages()
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	images := make(map[string]dockerclient.Image)
-	for _, c := range containers {
+	for _, c := range LoadDockerImages() {
 		images[c.Id] = *c
 	}
 
