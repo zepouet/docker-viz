@@ -9,6 +9,7 @@ import (
 	"crypto/x509"
 )
 
+// Load docker env variables
 func LoadConfig() string {
 	dockerClient := os.Getenv("DOCKER_HOST")
 
