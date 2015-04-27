@@ -16,6 +16,7 @@ type(
 func GenerateDockerImageList(dockerClient *string) map[string]dockerclient.Image {
 	docker, _ := dockerclient.NewDockerClient(*dockerClient, nil)
 
+	// load images list
 	containers, err := docker.ListImages()
 	if err != nil {
 		log.Fatal(err)

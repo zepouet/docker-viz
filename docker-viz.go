@@ -24,6 +24,7 @@ func LoadConfig() (int, string){
 	vizPort :=  cfg.VIZ_PORT
 	dockerClient := cfg.DOCKER_HOST
 
+	// if var not defined, change for defaults values
 	if vizPort == 0 {
 		vizPort = 8080
 	}
@@ -38,6 +39,8 @@ func main() {
 	vizPort, dockerClient := LoadConfig()
 
 	r := gin.Default()
+
+	// create static route for all files in this folder
 	r.Static("/images", "./asset/images")
 	r.Static("/js", "./asset/js")
 	r.Static("/css", "./asset/css")
@@ -50,13 +53,14 @@ func main() {
 		c.HTML(http.StatusOK, "base", obj)
 	})
 
+	// dendrogam diagram page
 	r.GET("/dendrogam", func(c *gin.Context) {
 		obj := gin.H{"title": "Dendrogam Images", "type": "images"}
-		html := template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "dendrogam.tpl"))
-		r.SetHTMLTemplate(html)
+		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "dendrogam.tpl")))
 		c.HTML(http.StatusOK, "base", obj)
 	})
 
+	// bubble diagram page
 	r.GET("/bubble/:name", func(c *gin.Context) {
 		var obj gin.H
 		switch name := c.Params.ByName("name"); name {
@@ -71,6 +75,7 @@ func main() {
 		c.HTML(http.StatusOK, "base", obj)
 	})
 
+	// json for all diagram route
 	r.GET("/flare/:name/json", func(c *gin.Context) {
 		switch name := c.Params.ByName("name"); name {
 			case "images":
@@ -82,6 +87,6 @@ func main() {
 		}
 	})
 
-	// start server
+	// start server (default port 8080)
 	r.Run(":" + strconv.Itoa(vizPort))
 }

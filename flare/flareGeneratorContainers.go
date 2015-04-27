@@ -16,6 +16,7 @@ type(
 func GenerateDockerContainerList(dockerClient *string) map[string]dockerclient.Container {
 	docker, _ := dockerclient.NewDockerClient(*dockerClient, nil)
 
+	// load containers list
 	listContainers, err := docker.ListContainers(true, true, "")
 	if err != nil {
 		log.Fatal(err)
