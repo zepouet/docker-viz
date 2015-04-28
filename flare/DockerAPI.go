@@ -24,18 +24,23 @@ func LoadConfig() string {
 // Create a Docker engine connection
 func DockerEngineConnection() *dockerclient.DockerClient {
 	docker, err := dockerclient.NewDockerClient(LoadConfig(), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 
+	_, err = docker.Version()
 	if err != nil {
 		// if docker connection fail, test if user use boot2docker
 		_, boot2dockerErr := os.Open(os.Getenv("HOME") + "/.boot2docker")
 		if boot2dockerErr != nil {
 			// if don't use boot2docker, display the first connection error
+			log.Print("boot2docker not detected\n")
 			log.Fatal(err)
 		} else {
 			// else, user use boot2docker. Generate a certificate for boot2docker connection
-			caFile := os.Getenv("HOME") + "/.boot2docker/certs/boot2docker-vm/ca.pem"
-			certFile := os.Getenv("HOME") + "/.boot2docker/certs/boot2docker-vm/cert.pem"
-			keyFile := os.Getenv("HOME") + "/.boot2docker/certs/boot2docker-vm/key.pem"
+			caFile := os.Getenv("DOCKER_CERT_PATH") + "/ca.pem"
+			certFile := os.Getenv("DOCKER_CERT_PATH") + "/cert.pem"
+			keyFile := os.Getenv("DOCKER_CERT_PATH") + "/key.pem"
 
 			cert, _ := tls.LoadX509KeyPair(certFile, keyFile)
 			pemCerts, _ := ioutil.ReadFile(caFile)
