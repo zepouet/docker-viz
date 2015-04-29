@@ -30,7 +30,7 @@ func MakeJsonImages(imageName string, dockerImagesFils map[string][]string, dock
 			flare += "{\"name\": \"" + dockerImagesList[image].RepoTags[0] + "\", \"children\": ["
 			flare += MakeJsonImages(image, dockerImagesFils, dockerImagesList) + "]}"
 		} else {
-			virtualSize := strconv.Itoa(int(dockerImagesList[image].VirtualSize))
+			virtualSize := strconv.FormatInt(dockerImagesList[image].VirtualSize, 10)
 			flare += "{\"name\": \"" + dockerImagesList[image].RepoTags[0] + "\", \"size\": " + virtualSize + "}"
 		}
 		if i < nbFils {

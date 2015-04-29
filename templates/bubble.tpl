@@ -14,7 +14,7 @@
     }
 
     function loadD3JSon() {
-        var diameter = 1000,
+        var diameter = 900,
             format = d3.format(",d"),
             color = d3.scale.category20c();
 

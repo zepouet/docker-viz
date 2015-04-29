@@ -10,7 +10,7 @@ func MakeJsonContainers(dockerContainerList map[string]dockerclient.Container) s
 	var flare string
 	var i int = 0
 	for _, container := range dockerContainerList {
-		virtualSize := strconv.Itoa(int(container.SizeRw))
+		virtualSize := strconv.FormatInt(container.SizeRw, 10)
 		if virtualSize == "0" {
 			continue
 		}

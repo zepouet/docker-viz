@@ -38,7 +38,6 @@ func TestGenerateDockerContainerAndJson(t *testing.T) {
 	assert.Equal(t, strings.Count(json, "\\"), 0)
 
 	bubble := BubbleContainers()
-	assert.Equal(t, len(bubble), len(json)+34)
 	assert.Equal(t, strings.Count(bubble, "["), strings.Count(bubble, "]"))
 	assert.Equal(t, strings.Count(bubble, "{"), strings.Count(bubble, "}"))
 	assert.Equal(t, strings.Count(bubble, "\\"), 0)

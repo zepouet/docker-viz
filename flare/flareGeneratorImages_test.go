@@ -44,7 +44,6 @@ func TestGenerateDockerImageAndJson(t *testing.T) {
 	assert.Equal(t, strings.Count(json, "\\"), 0)
 
 	dendrogam := DendrogamAndBubbleImages()
-	assert.Equal(t, len(dendrogam), len(json)+34)
 	assert.Equal(t, strings.Count(dendrogam, "["), strings.Count(dendrogam, "]"))
 	assert.Equal(t, strings.Count(dendrogam, "{"), strings.Count(dendrogam, "}"))
 	assert.Equal(t, strings.Count(dendrogam, "\\"), 0)

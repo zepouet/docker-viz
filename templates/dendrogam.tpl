@@ -14,11 +14,11 @@
     }
 
     function loadD3JSon() {
-        var width = 1000,
-            height = 1000;
+        var width = window.innerWidth,
+            height = window.innerHeight;
 
         var cluster = d3.layout.cluster()
-            .size([height, width - 200]);
+            .size([height-25, width - 200]);
 
         var diagonal = d3.svg.diagonal()
             .projection(function (d) {
@@ -27,7 +27,7 @@
 
         var svg = d3.select("body").append("svg")
             .attr("width", width)
-            .attr("height", height)
+            .attr("height", height-20)
             .append("g")
             .attr("transform", "translate(50,0)");
 
