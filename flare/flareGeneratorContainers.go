@@ -25,15 +25,17 @@ func GenerateDockerContainerList() map[string]dockerclient.Container {
 // Create the json architecture
 func MakeJsonContainers(dockerContainerList map[string]dockerclient.Container) string {
 	var flare string
-	nbFils := len(dockerContainerList)
 	var i int = 0
 	for _, container := range dockerContainerList {
-		i++
 		virtualSize := strconv.Itoa(int(container.SizeRw))
-		flare += "{\"name\": \"" + container.Names[0] + "\", \"size\": " + virtualSize + "}"
-		if i < nbFils {
+		if virtualSize == "0" {
+			continue
+		}
+		if i != 0 {
 			flare += ", "
 		}
+		flare += "{\"name\": \"" + container.Names[0] + "\", \"size\": " + virtualSize + "}"
+		i++
 	}
 
 	return flare

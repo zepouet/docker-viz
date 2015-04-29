@@ -90,6 +90,7 @@ func LoadDockerContainers() []dockerclient.Container {
 	return containers
 }
 
+/*
 func LoadDockerContainerInfo(id string) dockerclient.ContainerInfo {
 	docker := DockerEngineConnection()
 
@@ -99,4 +100,4 @@ func LoadDockerContainerInfo(id string) dockerclient.ContainerInfo {
 	}
 
 	return container
-}
+}*/
