@@ -78,6 +78,17 @@ func LoadDockerImages() []*dockerclient.Image {
 	return images
 }
 
+// Load all image information clone and commit in Docker
+func GenerateDockerImageList() map[string]dockerclient.Image {
+
+	images := make(map[string]dockerclient.Image)
+	for _, c := range LoadDockerImages() {
+		images[c.Id] = *c
+	}
+
+	return images
+}
+
 // load containers list
 func LoadDockerContainers() []dockerclient.Container {
 	docker := DockerEngineConnection()
@@ -85,6 +96,17 @@ func LoadDockerContainers() []dockerclient.Container {
 	containers, err := docker.ListContainers(true, true, "")
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	return containers
+}
+
+// Load all containers information in Docker
+func GenerateDockerContainerList() map[string]dockerclient.Container {
+
+	containers := make(map[string]dockerclient.Container)
+	for _, c := range LoadDockerContainers() {
+		containers[c.Id] = c
 	}
 
 	return containers

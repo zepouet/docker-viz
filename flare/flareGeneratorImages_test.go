@@ -4,20 +4,11 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"os/exec"
 	"log"
 	"strings"
 )
 
 var dockerClient string
-
-func init() {
-	_, err := exec.Command("./dockerInit.sh").Output()
-	if err != nil {
-		log.Fatalf("Init: %s", err)
-	}
-
-}
 
 func TestInitImagesAndContainers(t *testing.T) {
 

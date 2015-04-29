@@ -5,23 +5,6 @@ import (
 	"strconv"
 )
 
-type(
-	FlareContainers interface {
-		BubbleContainers() string;
-	}
-)
-
-// Load all containers information in Docker
-func GenerateDockerContainerList() map[string]dockerclient.Container {
-
-	containers := make(map[string]dockerclient.Container)
-	for _, c := range LoadDockerContainers() {
-		containers[c.Id] = c
-	}
-
-	return containers
-}
-
 // Create the json architecture
 func MakeJsonContainers(dockerContainerList map[string]dockerclient.Container) string {
 	var flare string
@@ -45,5 +28,5 @@ func MakeJsonContainers(dockerContainerList map[string]dockerclient.Container) s
 func BubbleContainers() string {
 	dockerContainerList := GenerateDockerContainerList()
 
-	return  "{\"name\": \"Docker\", \"children\": [" + MakeJsonContainers(dockerContainerList) + "]}"
+	return  BeginJson + MakeJsonContainers(dockerContainerList) + EndJson
 }

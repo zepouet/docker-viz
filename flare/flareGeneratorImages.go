@@ -5,23 +5,6 @@ import (
 	"strconv"
 )
 
-type(
-	Flare interface {
-		DendrogamAndBubbleImages() string;
-	}
-)
-
-// Load all image information clone and commit in Docker
-func GenerateDockerImageList() map[string]dockerclient.Image {
-
-	images := make(map[string]dockerclient.Image)
-	for _, c := range LoadDockerImages() {
-		images[c.Id] = *c
-	}
-
-	return images
-}
-
 // Creating Association father/son
 func GenerateDockerImageChild(dockerImagesList map[string]dockerclient.Image) map[string][]string {
 	dockerImagesChilds := make(map[string][]string)
@@ -63,5 +46,5 @@ func DendrogamAndBubbleImages() string {
 	dockerImagesList := GenerateDockerImageList()
 	dockerImagesChilds := GenerateDockerImageChild(dockerImagesList)
 
-	return  "{\"name\": \"Docker\", \"children\": [" + MakeJsonImages("Docker", dockerImagesChilds, dockerImagesList) + "]}"
+	return  BeginJson + MakeJsonImages("Docker", dockerImagesChilds, dockerImagesList) + EndJson
 }
