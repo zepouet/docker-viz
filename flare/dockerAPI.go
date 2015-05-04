@@ -7,6 +7,7 @@ import (
 	"crypto/tls"
 	"io/ioutil"
 	"crypto/x509"
+	"github.com/Treeptik/docker-viz/dockertype"
 )
 
 // Load docker env variables
@@ -78,17 +79,6 @@ func LoadDockerImages() []*dockerclient.Image {
 	return images
 }
 
-// Load all image information clone and commit in Docker
-func GenerateDockerImageList() map[string]dockerclient.Image {
-
-	images := make(map[string]dockerclient.Image)
-	for _, c := range LoadDockerImages() {
-		images[c.Id] = *c
-	}
-
-	return images
-}
-
 // load containers list
 func LoadDockerContainers() []dockerclient.Container {
 	docker := DockerEngineConnection()
@@ -101,14 +91,41 @@ func LoadDockerContainers() []dockerclient.Container {
 	return containers
 }
 
-/*
-func LoadDockerContainerInfo(id string) dockerclient.ContainerInfo {
-	docker := DockerEngineConnection()
+// Load all image information clone and commit in Docker
+func GenerateDockerImageList() map[string]dockertype.DockerType {
 
-	container, err := docker.InspectContainer(id)
-	if err != nil {
-		log.Fatal(err)
+	images := make(map[string]dockertype.DockerType)
+	for _, c := range LoadDockerImages() {
+		i := dockertype.Image{*c}
+		d := dockertype.DockerType(i)
+		images[d.GetId()] = d
+	}
+
+	return images
+}
+
+// Load all container information in Docker
+func GenerateDockerContainerList() map[string]dockertype.DockerType {
+
+	container := make(map[string]dockertype.DockerType)
+	for _, c := range LoadDockerContainers() {
+		i := dockertype.Container{c}
+		d := dockertype.DockerType(i)
+		container[d.GetId()] = d
 	}
 
 	return container
-}*/
+}
+
+func GenerateDockerChild(dockerList map[string]dockertype.DockerType) map[string][]string {
+	dockerImagesChilds := make(map[string][]string)
+	for _, docker := range dockerList {
+		if _, ok := dockerList[docker.GetFatherId()]; ok {
+			dockerImagesChilds[docker.GetFatherId()] = append(dockerImagesChilds[docker.GetFatherId()], docker.GetId())
+		} else {
+			dockerImagesChilds["Docker"] = append(dockerImagesChilds["Docker"], docker.GetId())
+		}
+	}
+
+	return dockerImagesChilds
+}
