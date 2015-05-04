@@ -71,12 +71,13 @@ func main() {
 	})
 
 	// json for all diagram route
-	r.GET("/flare/:name/json", func(c *gin.Context) {
-		switch name := c.Params.ByName("name"); name {
-			case "images":
-				c.String(http.StatusOK, flare.DendrogamAndBubbleImages())
-			case "containers":
-				c.String(http.StatusOK, flare.BubbleContainers())
+	r.GET("/json/:name/:who", func(c *gin.Context) {
+		name := c.Params.ByName("name")
+		switch who := c.Params.ByName("who"); who {
+			case "bubble":
+				c.String(http.StatusOK, flare.BubbleFlare(name))
+			case "dendrogam":
+				c.String(http.StatusOK, flare.DendrogamFlare())
 			default:
 				c.String(http.StatusNotFound, "404 page not found")
 		}

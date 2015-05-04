@@ -2,13 +2,6 @@ package flare
 
 import 	"github.com/Treeptik/docker-viz/dockertype"
 
-type(
-	Flare interface {
-		DendrogamAndBubbleImages() string;
-		BubbleContainers() string;
-	}
-)
-
 const(
 	BeginJson = "{\"name\": \"Docker\", \"children\": ["
 	EndJson = "]}"
