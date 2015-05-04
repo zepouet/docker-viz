@@ -6,7 +6,7 @@ import (
 )
 
 // Create the json architecture
-func MakeJsonContainers(dockerContainerList map[string]dockerclient.Container) string {
+func MakeJsonContainers(dockerContainerList []dockerclient.Container) string {
 	var flare string
 	var i int = 0
 	for _, container := range dockerContainerList {
@@ -26,7 +26,7 @@ func MakeJsonContainers(dockerContainerList map[string]dockerclient.Container) s
 
 // Returns the full json for docker containers bubble diagram
 func BubbleContainers() string {
-	dockerContainerList := GenerateDockerContainerList()
+	dockerContainerList := LoadDockerContainers()
 
 	return  BeginJson + MakeJsonContainers(dockerContainerList) + EndJson
 }

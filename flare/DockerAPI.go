@@ -101,17 +101,6 @@ func LoadDockerContainers() []dockerclient.Container {
 	return containers
 }
 
-// Load all containers information in Docker
-func GenerateDockerContainerList() map[string]dockerclient.Container {
-
-	containers := make(map[string]dockerclient.Container)
-	for _, c := range LoadDockerContainers() {
-		containers[c.Id] = c
-	}
-
-	return containers
-}
-
 /*
 func LoadDockerContainerInfo(id string) dockerclient.ContainerInfo {
 	docker := DockerEngineConnection()
