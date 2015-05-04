@@ -29,7 +29,7 @@ func TestInit(t *testing.T) {
 }
 
 func TestGenerateDockerContainerAndJson(t *testing.T) {
-	containers := GenerateDockerContainerList()
+	containers := LoadDockerContainers()
 	assert.Equal(t, len(containers), 13)
 
 	json := MakeJsonContainers(containers)
