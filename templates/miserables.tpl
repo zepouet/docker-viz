@@ -1,6 +1,6 @@
 {{define "content"}}
 <script>
-    d3.json("/json/{{ .type }}/miserables", function(miserables) {
+    d3.json("/json/miserables", function(miserables) {
         var matrix = [],
                 nodes = miserables.nodes,
                 n = nodes.length;

@@ -15,7 +15,7 @@ func TestMakeJsonFatherWithImage(t *testing.T) {
 	assert.Equal(t, len(childs), 12)
 	assert.Equal(t, len(childs["Docker"]), 1)
 
-	json := MakeJsonFather("Docker", childs, images)
+	json := MakeJsonFather("Docker", childs, images, "size")
 	assert.Equal(t, strings.Count(json, "["), strings.Count(json, "]"))
 	assert.Equal(t, strings.Count(json, "{"), strings.Count(json, "}"))
 	assert.Equal(t, strings.Count(json, "\\"), 0)
@@ -26,7 +26,7 @@ func TestMakeJsonFatherWithContainer(t *testing.T) {
 	assert.Equal(t, len(container), 13)
 
 	childs := dockertype.GenerateDockerChild(container)
-	json := MakeJsonFather("Docker", childs, container)
+	json := MakeJsonFather("Docker", childs, container, "size")
 	assert.Equal(t, strings.Count(json, "["), strings.Count(json, "]"))
 	assert.Equal(t, strings.Count(json, "{"), strings.Count(json, "}"))
 	assert.Equal(t, strings.Count(json, "\\"), 0)

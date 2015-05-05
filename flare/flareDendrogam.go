@@ -6,5 +6,5 @@ func DendrogamFlare() string {
 	dockerList := dockertype.GenerateDockerImageList()
 	dockerImagesChilds := dockertype.GenerateDockerChild(dockerList)
 
-	return  BeginJson + MakeJsonFather("Docker", dockerImagesChilds, dockerList) + EndJson
+	return  BeginJson + MakeJsonFather("Docker", dockerImagesChilds, dockerList, "size") + EndJson
 }

@@ -56,13 +56,14 @@ func main() {
 	})
 
 	// bubble diagram page
-	r.GET("/bubble/:name", func(c *gin.Context) {
+	r.GET("/bubble/:name/:sort", func(c *gin.Context) {
 		var obj gin.H
 		switch name := c.Params.ByName("name"); name {
 			case "images":
-				obj = gin.H{"title": "Buble Container", "type": name}
+				obj = gin.H{"title": "Buble Container", "type": name, "sort": "size"}
 			case "containers":
-				obj = gin.H{"title": "Buble Container", "type": name}
+				sort := c.Params.ByName("sort")
+				obj = gin.H{"title": "Buble Container", "type": name, "sort": sort}
 			default:
 			c.String(http.StatusNotFound, "404 page not found")
 		}
@@ -78,17 +79,26 @@ func main() {
 	})
 
 	// json for all diagram route
-	r.GET("/json/:name/:who", func(c *gin.Context) {
-		name := c.Params.ByName("name")
-		switch who := c.Params.ByName("who"); who {
-			case "bubble":
-				c.String(http.StatusOK, flare.BubbleFlare(name))
+	r.GET("/json/:name", func(c *gin.Context) {
+		switch name := c.Params.ByName("name"); name {
 			case "dendrogam":
 				c.String(http.StatusOK, flare.DendrogamFlare())
 			case "miserables":
 				c.String(http.StatusOK, flare.MiserablesFlare())
 			default:
 				c.String(http.StatusNotFound, "404 page not found")
+		}
+	})
+
+	// json for bubble diagram special route
+	r.GET("/json/:name/:who/:sort", func(c *gin.Context) {
+		name := c.Params.ByName("name")
+		sort := c.Params.ByName("sort")
+		switch who := c.Params.ByName("who"); who {
+		case "bubble":
+			c.String(http.StatusOK, flare.BubbleFlare(name, sort))
+		default:
+			c.String(http.StatusNotFound, "404 page not found")
 		}
 	})
 
