@@ -1,4 +1,4 @@
-package flare
+package dockertype
 
 import (
 	"testing"

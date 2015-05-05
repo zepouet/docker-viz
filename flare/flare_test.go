@@ -4,13 +4,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"strings"
+	"github.com/Treeptik/docker-viz/dockertype"
 )
 
 func TestMakeJsonFatherWithImage(t *testing.T) {
-	images := GenerateDockerImageList()
+	images := dockertype.GenerateDockerImageList()
 	assert.Equal(t, len(images), 48)
 
-	childs := GenerateDockerChild(images)
+	childs := dockertype.GenerateDockerChild(images)
 	assert.Equal(t, len(childs), 12)
 	assert.Equal(t, len(childs["Docker"]), 1)
 
@@ -21,10 +22,10 @@ func TestMakeJsonFatherWithImage(t *testing.T) {
 }
 
 func TestMakeJsonFatherWithContainer(t *testing.T) {
-	container := GenerateDockerContainerList()
+	container := dockertype.GenerateDockerContainerList()
 	assert.Equal(t, len(container), 13)
 
-	childs := GenerateDockerChild(container)
+	childs := dockertype.GenerateDockerChild(container)
 	json := MakeJsonFather("Docker", childs, container)
 	assert.Equal(t, strings.Count(json, "["), strings.Count(json, "]"))
 	assert.Equal(t, strings.Count(json, "{"), strings.Count(json, "}"))

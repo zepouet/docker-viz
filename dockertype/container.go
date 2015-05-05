@@ -24,3 +24,8 @@ func (c Container) GetName() string {
 func (c Container) GetSize() string {
 	return strconv.FormatInt(c.SizeRw, 10)
 }
+
+func (c Container) GetRam() string {
+	i := *LoadContainerInfos(c.Id)
+	return strconv.FormatInt(i.Config.Memory, 10)
+}

@@ -23,7 +23,7 @@ func MakeLinkJson(dockerList map[string]dockertype.DockerType) string {
 }
 
 func MiserablesFlare() string {
-	dockerList := GenerateDockerContainerList()
+	dockerList := dockertype.GenerateDockerContainerList()
 
 	return  "{\"nodes\":[" + MakeMatriceJson(dockerList) + "],\"links\":[" + MakeLinkJson(dockerList) + "]}"
 }

@@ -1,4 +1,4 @@
-package flare
+package dockertype
 
 import (
 	"github.com/samalba/dockerclient"
@@ -7,7 +7,6 @@ import (
 	"crypto/tls"
 	"io/ioutil"
 	"crypto/x509"
-	"github.com/Treeptik/docker-viz/dockertype"
 )
 
 // Load docker env variables
@@ -91,13 +90,25 @@ func LoadDockerContainers() []dockerclient.Container {
 	return containers
 }
 
-// Load all image information clone and commit in Docker
-func GenerateDockerImageList() map[string]dockertype.DockerType {
+// load all infos on container id
+func LoadContainerInfos(id string) *dockerclient.ContainerInfo {
+	docker := DockerEngineConnection()
 
-	images := make(map[string]dockertype.DockerType)
+	infos, err := docker.InspectContainer(id)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return infos
+}
+
+// Load all image information clone and commit in Docker
+func GenerateDockerImageList() map[string]DockerType {
+
+	images := make(map[string]DockerType)
 	for _, c := range LoadDockerImages() {
-		i := dockertype.Image{*c}
-		d := dockertype.DockerType(i)
+		i := Image{*c}
+		d := DockerType(i)
 		images[d.GetId()] = d
 	}
 
@@ -105,19 +116,19 @@ func GenerateDockerImageList() map[string]dockertype.DockerType {
 }
 
 // Load all container information in Docker
-func GenerateDockerContainerList() map[string]dockertype.DockerType {
+func GenerateDockerContainerList() map[string]DockerType {
 
-	container := make(map[string]dockertype.DockerType)
+	container := make(map[string]DockerType)
 	for _, c := range LoadDockerContainers() {
-		i := dockertype.Container{c}
-		d := dockertype.DockerType(i)
+		i := Container{c}
+		d := DockerType(i)
 		container[d.GetId()] = d
 	}
 
 	return container
 }
 
-func GenerateDockerChild(dockerList map[string]dockertype.DockerType) map[string][]string {
+func GenerateDockerChild(dockerList map[string]DockerType) map[string][]string {
 	dockerImagesChilds := make(map[string][]string)
 	for _, docker := range dockerList {
 		if _, ok := dockerList[docker.GetFatherId()]; ok {

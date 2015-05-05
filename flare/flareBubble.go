@@ -1,17 +1,19 @@
 package flare
 
-import "github.com/Treeptik/docker-viz/dockertype"
+import (
+	"github.com/Treeptik/docker-viz/dockertype"
+)
 
 func BubbleFlare(who string) string {
 	dockerList := make(map[string]dockertype.DockerType)
 
 	if who == "images" {
-		dockerList = GenerateDockerImageList()
+		dockerList = dockertype.GenerateDockerImageList()
 	} else {
-		dockerList = GenerateDockerContainerList()
+		dockerList = dockertype.GenerateDockerContainerList()
 	}
 
-	dockerImagesChilds := GenerateDockerChild(dockerList)
+	dockerImagesChilds := dockertype.GenerateDockerChild(dockerList)
 
 	return  BeginJson + MakeJsonFather("Docker", dockerImagesChilds, dockerList) + EndJson
 }
