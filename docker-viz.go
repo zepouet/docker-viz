@@ -70,6 +70,13 @@ func main() {
 		c.HTML(http.StatusOK, "base", obj)
 	})
 
+	// dendrogam diagram page
+	r.GET("/miserables", func(c *gin.Context) {
+		obj := gin.H{"title": "Miserables Images", "type": "bubbles"}
+		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "miserables.tpl")))
+		c.HTML(http.StatusOK, "base", obj)
+	})
+
 	// json for all diagram route
 	r.GET("/json/:name/:who", func(c *gin.Context) {
 		name := c.Params.ByName("name")
@@ -78,6 +85,8 @@ func main() {
 				c.String(http.StatusOK, flare.BubbleFlare(name))
 			case "dendrogam":
 				c.String(http.StatusOK, flare.DendrogamFlare())
+			case "miserables":
+				//c.String(http.StatusOK, flare.DendrogamFlare())
 			default:
 				c.String(http.StatusNotFound, "404 page not found")
 		}

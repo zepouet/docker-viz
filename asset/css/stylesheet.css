@@ -1,5 +1,13 @@
+/* Bubble graph */
+
 text {
     font: 10px sans-serif;
+}
+
+/* Dendrogam graph */
+
+#tree-container {
+    cursor: move;
 }
 
 .node circle {
@@ -16,4 +24,22 @@ text {
     fill: none;
     stroke: #ccc;
     stroke-width: 1.5px;
+}
+
+.background {
+    fill: #eee;
+}
+
+/* Miserables graph */
+
+line {
+    stroke: #fff;
+}
+
+text.active {
+    fill: red;
+}
+
+.text {
+    font-size: 10px;
 }
