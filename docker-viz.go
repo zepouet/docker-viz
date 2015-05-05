@@ -72,7 +72,7 @@ func main() {
 
 	// dendrogam diagram page
 	r.GET("/miserables", func(c *gin.Context) {
-		obj := gin.H{"title": "Miserables Images", "type": "bubbles"}
+		obj := gin.H{"title": "Miserables Images", "type": "containers"}
 		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "miserables.tpl")))
 		c.HTML(http.StatusOK, "base", obj)
 	})
@@ -86,7 +86,7 @@ func main() {
 			case "dendrogam":
 				c.String(http.StatusOK, flare.DendrogamFlare())
 			case "miserables":
-				//c.String(http.StatusOK, flare.DendrogamFlare())
+				c.String(http.StatusOK, flare.MiserablesFlare())
 			default:
 				c.String(http.StatusNotFound, "404 page not found")
 		}
