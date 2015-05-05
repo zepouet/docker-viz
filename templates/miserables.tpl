@@ -1,24 +1,25 @@
 {{define "content"}}
 <script>
-
-    var margin = {top: 80, right: 0, bottom: 10, left: 80},
-            width = 850,
-            height = 850;
-
-    var x = d3.scale.ordinal().rangeBands([0, width]),
-            z = d3.scale.linear().domain([0, 4]).clamp(true),
-            c = d3.scale.category10().domain(d3.range(10));
-
-    var svg = d3.select("body").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
     d3.json("/json/{{ .type }}/miserables", function(miserables) {
         var matrix = [],
                 nodes = miserables.nodes,
                 n = nodes.length;
+
+        var margin = {top: 150, right: 20, bottom: 10, left: 150},
+                width = 12 * n,
+                height = 12 * n;
+
+        var x = d3.scale.ordinal().rangeBands([0, width]),
+                z = d3.scale.linear().domain([0, 4]).clamp(true),
+                c = d3.scale.category10().domain(d3.range(10));
+
+        var svg = d3.select("body").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
 
         // Compute index per node.
         nodes.forEach(function(node, i) {

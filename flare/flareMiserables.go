@@ -6,7 +6,7 @@ func MakeMatriceJson(dockerList map[string]dockertype.DockerType) string {
 	var flare string
 	nbdock := len(dockerList)
 	var i int = 0
-	flare += "{\"nodes\":["
+
 	for _, dock := range dockerList {
 		i++
 		flare += "{\"name\":\""+ dock.GetName() +"\"}"
@@ -14,14 +14,16 @@ func MakeMatriceJson(dockerList map[string]dockertype.DockerType) string {
 			flare += ", "
 		}
 	}
-	flare += "],\"links\":["
-	flare += "]}"
 
 	return flare
+}
+
+func MakeLinkJson(dockerList map[string]dockertype.DockerType) string {
+	return ""
 }
 
 func MiserablesFlare() string {
 	dockerList := GenerateDockerContainerList()
 
-	return  MakeMatriceJson(dockerList)
+	return  "{\"nodes\":[" + MakeMatriceJson(dockerList) + "],\"links\":[" + MakeLinkJson(dockerList) + "]}"
 }

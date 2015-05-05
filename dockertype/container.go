@@ -24,4 +24,3 @@ func (c Container) GetName() string {
 func (c Container) GetSize() string {
 	return strconv.FormatInt(c.SizeRw, 10)
 }
-

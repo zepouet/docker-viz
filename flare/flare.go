@@ -2,7 +2,6 @@ package flare
 
 import (
 	"github.com/Treeptik/docker-viz/dockertype"
-	"fmt"
 )
 
 const(
