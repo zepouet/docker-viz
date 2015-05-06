@@ -5,17 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"strconv"
-	"os/exec"
-	"log"
 )
-
-func init() {
-	_, err := exec.Command("./dockerInit.sh").Output()
-	if err != nil {
-		log.Fatalf("Init: %s", err)
-	}
-
-}
 
 func TestLoadConfig(t *testing.T) {
 	vizPort := LoadConfig()
