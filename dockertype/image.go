@@ -3,6 +3,7 @@ package dockertype
 import (
 	"github.com/samalba/dockerclient"
 	"strconv"
+	"github.com/emirpasic/gods/sets/hashset"
 )
 
 type Image struct {
@@ -27,4 +28,8 @@ func (i Image) GetSize() string {
 
 func (i Image) GetRam() string {
 	return "0"
+}
+
+func (i Image) GetLink() *hashset.Set {
+	return hashset.New()
 }

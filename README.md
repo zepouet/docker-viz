@@ -24,4 +24,4 @@ VIZ_PORT #default value : 8080
 ### Docker Containers
 - [x] Bubble visualization sort by images & size,ram
 - [ ] Chord visualization sort by link, volume
-- [ ] Matrice visualization sort by link, volume, network
+- [x] Matrice visualization by link

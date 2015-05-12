@@ -31,7 +31,7 @@
         // Convert links to matrix; count character occurrences.
         miserables.links.forEach(function(link) {
             matrix[link.source][link.target].z += link.value;
-            matrix[link.target][link.source].z += link.value;
+            //matrix[link.target][link.source].z += link.value;
         });
 
         // Precompute the orders.

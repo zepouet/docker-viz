@@ -3,6 +3,8 @@ package dockertype
 import (
 	"github.com/samalba/dockerclient"
 	"strconv"
+	"strings"
+	"github.com/emirpasic/gods/sets/hashset"
 )
 
 type Container struct {
@@ -28,4 +30,16 @@ func (c Container) GetSize() string {
 func (c Container) GetRam() string {
 	i := *LoadContainerInfos(c.Id)
 	return strconv.FormatInt(i.Config.Memory, 10)
+}
+
+func (c Container) GetLink() *hashset.Set {
+	i := *LoadContainerInfos(c.Id)
+	links := hashset.New()
+	for _, link := range i.HostConfig.Links {
+		linkSlpit := strings.Split(link, ":")
+		containerLinked := *LoadContainerInfos(linkSlpit[0])
+		links.Add(containerLinked.Id)
+	}
+
+	return links
 }
