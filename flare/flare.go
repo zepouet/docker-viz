@@ -14,18 +14,16 @@ func MakeJsonFather(name string, dockerFils map[string][]string, dockerList map[
 	var flare string
 	var i int = 0
 	for _, fils := range dockerFils[name] {
+		if i != 0 {
+			flare += ", "
+		}
 		if _, ok := dockerFils[fils]; ok {
-			if i != 0 {
-				flare += ", "
-			}
+
 			flare += "{\"name\": \"" + dockerList[fils].GetName() + "\", \"children\": ["
 			flare += MakeJsonFather(fils, dockerFils, dockerList, sizer) + "]}"
 		} else {
 			if dockerList[fils].GetSize() == "0" {
 				continue
-			}
-			if i != 0 {
-				flare += ", "
 			}
 			var size string
 			switch sizer {
