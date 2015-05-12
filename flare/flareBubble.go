@@ -4,6 +4,7 @@ import (
 	"github.com/Treeptik/docker-viz/dockertype"
 )
 
+// return all json for Bubble diagram
 func BubbleFlare(who string, sort string) string {
 	dockerList := make(map[string]dockertype.DockerType)
 

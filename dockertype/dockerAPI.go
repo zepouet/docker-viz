@@ -29,6 +29,7 @@ func DockerEngineConnection() *dockerclient.DockerClient {
 	}
 
 	_, err = docker.Version()
+	// if docker api can't find the docker version
 	if err != nil {
 		// if docker connection fail, test if user use boot2docker
 		_, boot2dockerErr := os.Open(os.Getenv("HOME") + "/.boot2docker")
@@ -128,6 +129,7 @@ func GenerateDockerContainerList() map[string]DockerType {
 	return container
 }
 
+// return a map who represent the Father/son sequence
 func GenerateDockerChild(dockerList map[string]DockerType) map[string][]string {
 	dockerImagesChilds := make(map[string][]string)
 	for _, docker := range dockerList {
