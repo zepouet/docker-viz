@@ -92,12 +92,11 @@ func LoadDockerContainers() []dockerclient.Container {
 }
 
 // load all infos on container id
-func LoadContainerInfos(id string) (*dockerclient.ContainerInfo,bool) {
+func LoadContainerInfos(id string) (*dockerclient.ContainerInfo, bool) {
 	docker := DockerEngineConnection()
 
 	infos, err := docker.InspectContainer(id)
 	if err != nil {
-		log.Println("Docker inspect error for " + id)
 		return nil, true
 	}
 
