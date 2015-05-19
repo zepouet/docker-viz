@@ -7,12 +7,12 @@ import (
 )
 
 func TestBubbleFlare(t *testing.T) {
-	images := BubbleFlare("images", "size")
+	images := BubbleFlare("images")
 	assert.Equal(t, strings.Count(images, "["), strings.Count(images, "]"))
 	assert.Equal(t, strings.Count(images, "{"), strings.Count(images, "}"))
 	assert.Equal(t, strings.Count(images, "\\"), 0)
 
-	containers := BubbleFlare("containers", "size")
+	containers := BubbleFlare("containers")
 	assert.Equal(t, strings.Count(containers, "["), strings.Count(containers, "]"))
 	assert.Equal(t, strings.Count(containers, "{"), strings.Count(containers, "}"))
 	assert.Equal(t, strings.Count(containers, "\\"), 0)

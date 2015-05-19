@@ -26,10 +26,6 @@ func (i Image) GetSize() string {
 	return strconv.FormatInt(i.VirtualSize, 10)
 }
 
-func (i Image) GetRam() string {
-	return "0"
-}
-
 func (i Image) GetLink() *hashset.Set {
 	return hashset.New()
 }

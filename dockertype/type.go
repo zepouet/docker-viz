@@ -8,6 +8,5 @@ type DockerType interface {
 	GetFatherId() string
 	GetName() string
 	GetSize() string
-	GetRam() string
 	GetLink() *hashset.Set
 }

@@ -5,7 +5,7 @@ import (
 )
 
 // return all json for Bubble diagram
-func BubbleFlare(who string, sort string) string {
+func BubbleFlare(who string) string {
 	dockerList := make(map[string]dockertype.DockerType)
 
 	switch who {
@@ -18,5 +18,5 @@ func BubbleFlare(who string, sort string) string {
 
 	dockerImagesChilds := dockertype.GenerateDockerChild(dockerList)
 
-	return  BeginJson + MakeJsonFather("Docker", dockerImagesChilds, dockerList, sort) + EndJson
+	return  BeginJson + MakeJsonFather("Docker", dockerImagesChilds, dockerList) + EndJson
 }
