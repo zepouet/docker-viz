@@ -9,4 +9,5 @@ type DockerType interface {
 	GetName() string
 	GetSize() string
 	GetLink() *hashset.Set
+	GetVolumeFrom() *hashset.Set
 }

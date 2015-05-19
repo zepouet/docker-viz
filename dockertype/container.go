@@ -28,11 +28,33 @@ func (c Container) GetSize() string {
 }
 
 func (c Container) GetLink() *hashset.Set {
-	i := *LoadContainerInfos(c.Id)
+	i, _ := *LoadContainerInfos(c.Id)
 	links := hashset.New()
+
+
 	for _, link := range i.HostConfig.Links {
 		linkSlpit := strings.Split(link, ":")
-		containerLinked := *LoadContainerInfos(linkSlpit[0])
+		containerLinked, err := *LoadContainerInfos(linkSlpit[0])
+
+		if(err) {
+			continue
+		}
+		links.Add(containerLinked.Id)
+	}
+
+	return links
+}
+
+func (c Container) GetVolumeFrom() *hashset.Set {
+	i, _ := *LoadContainerInfos(c.Id)
+	links := hashset.New()
+
+	for _, link := range i.HostConfig.VolumesFrom {
+		containerLinked, err := *LoadContainerInfos(link)
+
+		if(err) {
+			continue
+		}
 		links.Add(containerLinked.Id)
 	}
 

@@ -36,8 +36,18 @@ func MakeLinkJson(dockerList map[string]dockertype.DockerType, pos map[string]in
 			if comma != 0 {
 				flare += ", "
 			}
-			flare += "{\"source\":" + strconv.Itoa(pos[dock.GetId()]) +",\"target\":" + strconv.Itoa(pos[docklink.(string)]) +",\"value\":2},"
-			flare += "{\"source\":" + strconv.Itoa(pos[docklink.(string)]) +",\"target\":" + strconv.Itoa(pos[dock.GetId()]) +",\"value\":200}"
+			flare += "{\"source\":" + strconv.Itoa(pos[dock.GetId()]) +",\"target\":" + strconv.Itoa(pos[docklink.(string)]) +",\"value\":2}"
+			comma++
+		}
+
+		Volumelinks := dock.GetVolumeFrom()
+		// for all link compared with "dock"
+		for _, dockVolumelinks := range Volumelinks.Values() {
+			// if not a first
+			if comma != 0 {
+				flare += ", "
+			}
+			flare += "{\"source\":" + strconv.Itoa(pos[dockVolumelinks.(string)]) +",\"target\":" + strconv.Itoa(pos[dock.GetId()]) +",\"value\":200}"
 			comma++
 		}
 	}

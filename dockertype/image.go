@@ -29,3 +29,7 @@ func (i Image) GetSize() string {
 func (i Image) GetLink() *hashset.Set {
 	return hashset.New()
 }
+
+func (i Image) GetVolumeFrom() *hashset.Set {
+	return hashset.New()
+}
