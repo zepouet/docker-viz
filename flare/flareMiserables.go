@@ -41,7 +41,7 @@ func MakeLinkJson(dockerList map[string]dockertype.DockerType, pos map[string]in
 		}
 
 		Volumelinks := dock.GetVolumeFrom()
-		// for all link compared with "dock"
+		// for all volumelink compared with "dock"
 		for _, dockVolumelinks := range Volumelinks.Values() {
 			// if not a first
 			if comma != 0 {

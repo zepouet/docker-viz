@@ -25,7 +25,7 @@ func LoadConfig() string {
 func DockerEngineConnection() *dockerclient.DockerClient {
 	docker, err := dockerclient.NewDockerClient(LoadConfig(), nil)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 
 	_, err = docker.Version()
@@ -36,7 +36,7 @@ func DockerEngineConnection() *dockerclient.DockerClient {
 		if boot2dockerErr != nil {
 			// if don't use boot2docker, display the first connection error
 			log.Print("boot2docker not detected\n")
-			log.Fatal(err)
+			log.Print(err)
 		} else {
 			// else, user use boot2docker. Generate a certificate for boot2docker connection
 			caFile := os.Getenv("DOCKER_CERT_PATH") + "/ca.pem"
@@ -57,7 +57,7 @@ func DockerEngineConnection() *dockerclient.DockerClient {
 
 			if err != nil {
 				// if connection fail, display a boot2docker connection error
-				log.Fatal(err)
+				log.Print(err)
 			}
 
 			return docker
@@ -65,6 +65,18 @@ func DockerEngineConnection() *dockerclient.DockerClient {
 	}
 
 	return docker
+}
+
+// Docker Statut
+func DockerStatut() bool {
+	docker := DockerEngineConnection()
+
+	_, err := docker.Version()
+	if err != nil {
+		return false
+	}
+
+	return true
 }
 
 // load images list

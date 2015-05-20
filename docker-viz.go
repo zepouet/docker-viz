@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"github.com/Treeptik/docker-viz/flare"
 	"html/template"
+	"docker-viz/dockertype"
 )
 
 type (
@@ -46,6 +47,15 @@ func main() {
 		obj := gin.H{"title": "Index"}
 		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "index.tpl")))
 		c.HTML(http.StatusOK, "base", obj)
+	})
+
+	// docker success connexion
+	r.GET("/docker", func(c *gin.Context) {
+		if dockertype.DockerStatut() {
+			c.String(http.StatusOK, "true")
+		} else {
+			c.String(http.StatusOK, "false")
+		}
 	})
 
 	// dendrogam diagram page
