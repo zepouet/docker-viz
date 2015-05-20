@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"github.com/Treeptik/docker-viz/flare"
 	"html/template"
-	"docker-viz/dockertype"
+	"github.com/Treeptik/docker-viz/dockertype"
 )
 
 type (
