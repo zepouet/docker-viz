@@ -31,7 +31,7 @@ func main() {
 			server.StartServer(port);
 		},
 	}
-	rootCmd.Flags().IntVarP(&port, "port", "p", 8080, "server port")
+	rootCmd.Flags().IntVarP(&port, "port", "p", 8080, "docker-viz server port")
 	rootCmd.AddCommand(versionCmd)
 	rootCmd.Execute()
 }

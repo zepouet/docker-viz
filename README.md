@@ -26,7 +26,7 @@ Available Commands:
 
 Flags:
   -h, --help=false: help for docker-viz
-  -p, --port=8080: server port
+  -p, --port=8080: docker-viz server port
 
 
 Use "docker-viz help [command]" for more information about a command
