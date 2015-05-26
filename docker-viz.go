@@ -3,10 +3,24 @@ package main
 import (
 	"github.com/spf13/cobra"
 	"github.com/Treeptik/docker-viz/server"
+	"github.com/Treeptik/docker-viz/dockertype"
+	"fmt"
 )
 
 func main() {
 	var port int
+	version := "0.7.0"
+
+	var versionCmd = &cobra.Command{
+		Use:   "version",
+		Short: "docker-viz and docker engine version",
+		Long: `docker-viz and docker engine version`,
+
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("Docker-Viz version: " + version)
+			fmt.Println("Docker Engine version: " + dockertype.DockerVersion())
+		},
+	}
 
 	var rootCmd = &cobra.Command{
 		Use:   "docker-viz",
@@ -17,6 +31,7 @@ func main() {
 			server.StartServer(port);
 		},
 	}
-	rootCmd.PersistentFlags().IntVarP(&port, "port", "p", 8080, "server port")
+	rootCmd.Flags().IntVarP(&port, "port", "p", 8080, "server port")
+	rootCmd.AddCommand(versionCmd)
 	rootCmd.Execute()
 }

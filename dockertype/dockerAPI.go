@@ -67,6 +67,18 @@ func DockerEngineConnection() *dockerclient.DockerClient {
 	return docker
 }
 
+// Docker Version
+func DockerVersion() string {
+	docker := DockerEngineConnection()
+
+	version, err := docker.Version()
+	if err != nil {
+		return "Docker Engine not found"
+	}
+
+	return version.Version
+}
+
 // Docker Statut
 func DockerStatut() bool {
 	docker := DockerEngineConnection()

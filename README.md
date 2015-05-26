@@ -18,9 +18,18 @@ Docker-Viz start usage
 ```
 Usage: 
   docker-viz [flags]
+  docker-viz [command]
+
+Available Commands: 
+  version     docker-viz version
+  help        Help about any command
+
 Flags:
   -h, --help=false: help for docker-viz
   -p, --port=8080: server port
+
+
+Use "docker-viz help [command]" for more information about a command
 ```
 
 
