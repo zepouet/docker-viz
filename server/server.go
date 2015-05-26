@@ -9,7 +9,7 @@ import (
 	"github.com/Treeptik/docker-viz/dockertype"
 )
 
-func startServer(port int) {
+func StartServer(port int) {
 	r := gin.Default()
 
 	// create static route for all files in this folder

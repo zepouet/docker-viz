@@ -8,19 +8,15 @@ import (
 func main() {
 	var port int
 
-	var DockerVizCmd = &cobra.Command{
-		Use:   "server",
+	var rootCmd = &cobra.Command{
+		Use:   "docker-viz",
 		Short: "docker-viz server is a web server for data visualization on Docker.",
-		Long: `docker-viz server is a web server who return a data visualization for different informations on Docker containers and images.
-		       Complete documentation and source code is available at https://github.com/Treeptik/docker-viz`,
+		Long: `docker-viz server is a web server who return a data visualization for different informations on Docker containers and images.`,
 
 		Run: func(cmd *cobra.Command, args []string) {
-			server.startServer(port);
+			server.StartServer(port);
 		},
 	}
-
-	var rootCmd = &cobra.Command{Use: "app"}
-	rootCmd.AddCommand(DockerVizCmd)
 	rootCmd.PersistentFlags().IntVarP(&port, "port", "p", 8080, "server port")
 	rootCmd.Execute()
 }

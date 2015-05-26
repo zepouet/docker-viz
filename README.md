@@ -9,10 +9,18 @@ go build $GOPATH/github.com/Treeptik/docker-viz/docker-viz.go
 ```
 
 ### Configure & Launch
-docker-viz using two system variables for its configuration.
+Docker-Viz using two system variables for its configuration.
 ```
 DOCKER_HOST #default value : unix:///var/run/docker.sock
-VIZ_PORT #default value : 8080
+```
+
+Docker-Viz start usage
+```
+Usage: 
+  docker-viz [flags]
+Flags:
+  -h, --help=false: help for docker-viz
+  -p, --port=8080: server port
 ```
 
 
@@ -27,4 +35,4 @@ VIZ_PORT #default value : 8080
 - [x] Matrice visualization by link & volume
 
 ### Docker Engine
-- [ ] resources visualization
+- [ ] Resources visualization
