@@ -9,7 +9,7 @@ go build $GOPATH/github.com/Treeptik/docker-viz/docker-viz.go
 ```
 
 ### Configure & Launch
-Docker-Viz using two system variables for its configuration.
+Docker-Viz using one system variable for its configuration.
 ```
 DOCKER_HOST #default value : unix:///var/run/docker.sock
 ```
