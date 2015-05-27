@@ -11,6 +11,7 @@ func main() {
 	var port int
 	version := "0.7.0"
 
+	// create version commande
 	var versionCmd = &cobra.Command{
 		Use:   "version",
 		Short: "docker-viz and docker engine version",
@@ -22,6 +23,7 @@ func main() {
 		},
 	}
 
+	// create default root command
 	var rootCmd = &cobra.Command{
 		Use:   "docker-viz",
 		Short: "docker-viz server is a web server for data visualization on Docker.",

@@ -9,6 +9,7 @@ import (
 	"github.com/Treeptik/docker-viz/dockertype"
 )
 
+// Function who start the web server of Docker-Viz
 func StartServer(port int) {
 	r := gin.Default()
 
