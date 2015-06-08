@@ -5,7 +5,6 @@ import (
 	"github.com/fsouza/go-dockerclient"
 	"strconv"
 	"strings"
-	"fmt"
 )
 
 type Container struct {
@@ -29,7 +28,6 @@ func (c Container) GetName() string {
 
 // return the Hard disk size of Container
 func (c Container) GetSize() string {
-	fmt.Println(c)
 	return strconv.FormatInt(c.SizeRw, 10)
 }
 
