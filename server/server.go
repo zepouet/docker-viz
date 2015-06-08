@@ -1,11 +1,11 @@
 package server
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	"github.com/Treeptik/docker-viz/flare"
 	"html/template"
+	"github.com/gin-gonic/gin"
+	"github.com/Treeptik/docker-viz/flare"
 	"github.com/Treeptik/docker-viz/dockertype"
 )
 
@@ -22,7 +22,9 @@ func StartServer(port int) {
 
 	// index page
 	r.GET("/", func(c *gin.Context) {
-		obj := gin.H{"title": "Dashboard", "countImages": strconv.Itoa(dockertype.countDockerImages()), "countContainers": strconv.Itoa(dockertype.countDockerContainer())}
+		countImg := dockertype.CountDockerImages()
+		countCont := dockertype.CountDockerContainer()
+		obj := gin.H{"title": "Dashboard", "countImages": strconv.Itoa(countImg), "countContainers": strconv.Itoa(countCont)}
 		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "index.tpl")))
 		c.HTML(http.StatusOK, "base", obj)
 	})

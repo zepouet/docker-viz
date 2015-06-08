@@ -118,14 +118,6 @@ func GenerateDockerImageList() map[string]DockerType {
 	return images
 }
 
-func countDockerImages() int {
-	return len(GenerateDockerImageList())
-}
-
-func countDockerContainer() int {
-	return len(LoadDockerContainers())
-}
-
 // Load all container information in Docker
 func GenerateDockerContainerList() map[string]DockerType {
 
@@ -162,4 +154,12 @@ func LoadContainerInfos(Id string) (*docker.Container, bool) {
 	}
 
 	return containerInfo, false
+}
+
+func CountDockerImages() int {
+	return len(GenerateDockerImageList())
+}
+
+func CountDockerContainer() int {
+	return len(LoadDockerContainers())
 }

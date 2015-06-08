@@ -14,14 +14,12 @@
 </script>
 <div class="row placeholders">
     <div class="col-xs-6 col-sm-3 placeholder">
-      <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="">
-      <h4>{{define "countImages"}}</h4>
-      <span class="text-muted">Docker Images</span>
+      <img data-src="holder.js/200x200?theme=sky&amp;text={{ .countImages}}" class="img-responsive" alt="{{ .countImages}}">
+      <h4>Docker Images</h4>
     </div>
     <div class="col-xs-6 col-sm-3 placeholder">
-      <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="">
-      <h4>{{define "countContainers"}}</h4>
-      <span class="text-muted">Docker Container</span>
+      <img data-src="holder.js/200x200?theme=vine&amp;text={{ .countContainers}}" class="img-responsive" alt="{{ .countContainers}}">
+      <h4>Docker Container</h4>
     </div>
 </div>
 <p id="status">Search Docker engine</p>
