@@ -15,12 +15,12 @@
 <div class="row placeholders">
     <div class="col-xs-6 col-sm-3 placeholder">
       <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="">
-      <h4>Label</h4>
+      <h4>{{define "countImages"}}</h4>
       <span class="text-muted">Docker Images</span>
     </div>
     <div class="col-xs-6 col-sm-3 placeholder">
       <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="">
-      <h4>Label</h4>
+      <h4>{{define "countContainers"}}</h4>
       <span class="text-muted">Docker Container</span>
     </div>
 </div>

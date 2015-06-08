@@ -22,7 +22,7 @@ func StartServer(port int) {
 
 	// index page
 	r.GET("/", func(c *gin.Context) {
-		obj := gin.H{"title": "Dashboard"}
+		obj := gin.H{"title": "Dashboard", "countImages": strconv.Itoa(dockertype.countDockerImages()), "countContainers": strconv.Itoa(dockertype.countDockerContainer())}
 		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "index.tpl")))
 		c.HTML(http.StatusOK, "base", obj)
 	})
@@ -41,18 +41,6 @@ func StartServer(port int) {
 		obj := gin.H{"title": "Dendrogam Images", "type": "images"}
 		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "dendrogam.tpl")))
 		c.HTML(http.StatusOK, "base", obj)
-	})
-
-	// bubble diagram page
-	r.GET("/count/:name", func(c *gin.Context) {
-		switch name := c.Params.ByName("name"); name {
-		case "images":
-			c.String(http.StatusNotFound, strconv.Itoa(dockertype.countDockerImages()))
-		case "containers":
-			c.String(http.StatusNotFound, strconv.Itoa(dockertype.countDockerContainer()))
-		default:
-			c.String(http.StatusNotFound, "404 page not found")
-		}
 	})
 
 	// bubble diagram page
