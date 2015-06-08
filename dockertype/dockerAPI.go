@@ -1,12 +1,10 @@
 package dockertype
 
 import (
-	"github.com/samalba/dockerclient"
+	"github.com/fsouza/go-dockerclient"
 	"log"
 	"os"
-	"crypto/tls"
-	"io/ioutil"
-	"crypto/x509"
+	"fmt"
 )
 
 // Load docker env variables
@@ -22,13 +20,13 @@ func LoadConfig() string {
 }
 
 // Create a Docker engine connection
-func DockerEngineConnection() *dockerclient.DockerClient {
-	docker, err := dockerclient.NewDockerClient(LoadConfig(), nil)
+func DockerEngineConnection() *docker.Client {
+	dockerConnection, err := docker.NewClient(LoadConfig())
 	if err != nil {
 		log.Print(err)
 	}
 
-	_, err = docker.Version()
+	_, err = dockerConnection.Version()
 	// if docker api can't find the docker version
 	if err != nil {
 		// if docker connection fail, test if user use boot2docker
@@ -39,51 +37,43 @@ func DockerEngineConnection() *dockerclient.DockerClient {
 			log.Print(err)
 		} else {
 			// else, user use boot2docker. Generate a certificate for boot2docker connection
-			caFile := os.Getenv("DOCKER_CERT_PATH") + "/ca.pem"
-			certFile := os.Getenv("DOCKER_CERT_PATH") + "/cert.pem"
-			keyFile := os.Getenv("DOCKER_CERT_PATH") + "/key.pem"
-
-			cert, _ := tls.LoadX509KeyPair(certFile, keyFile)
-			pemCerts, _ := ioutil.ReadFile(caFile)
-
-			tlsConfig := &tls.Config{}
-			tlsConfig.RootCAs       = x509.NewCertPool()
-			tlsConfig.ClientAuth    = tls.RequireAndVerifyClientCert
-			tlsConfig.Certificates  = []tls.Certificate{cert}
-			tlsConfig.RootCAs.AppendCertsFromPEM(pemCerts)
+			path := os.Getenv("DOCKER_CERT_PATH")
+			ca := fmt.Sprintf("%s/ca.pem", path)
+			cert := fmt.Sprintf("%s/cert.pem", path)
+			key := fmt.Sprintf("%s/key.pem", path)
 
 			// Create a boot2docker connection
-			docker, err := dockerclient.NewDockerClient(LoadConfig(), tlsConfig)
+			dockerConnection, err := docker.NewTLSClient(LoadConfig(), cert, key, ca)
 
 			if err != nil {
 				// if connection fail, display a boot2docker connection error
 				log.Print(err)
 			}
 
-			return docker
+			return dockerConnection
 		}
 	}
 
-	return docker
+	return dockerConnection
 }
 
 // Docker Version
 func DockerVersion() string {
-	docker := DockerEngineConnection()
+	dockerConnection := DockerEngineConnection()
 
-	version, err := docker.Version()
+	_, err := dockerConnection.Version()
 	if err != nil {
 		return "Docker Engine not found"
 	}
 
-	return version.Version
+	return "0.0"
 }
 
 // Docker Statut
 func DockerStatut() bool {
-	docker := DockerEngineConnection()
+	dockerConnection := DockerEngineConnection()
 
-	_, err := docker.Version()
+	_, err := dockerConnection.Version()
 	if err != nil {
 		return false
 	}
@@ -92,10 +82,10 @@ func DockerStatut() bool {
 }
 
 // load images list
-func LoadDockerImages() []*dockerclient.Image {
-	docker := DockerEngineConnection()
+func LoadDockerImages() []docker.APIImages {
+	dockerConnection := DockerEngineConnection()
 
-	images, err := docker.ListImages()
+	images, err := dockerConnection.ListImages(docker.ListImagesOptions{All: false})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -104,10 +94,10 @@ func LoadDockerImages() []*dockerclient.Image {
 }
 
 // load containers list
-func LoadDockerContainers() []dockerclient.Container {
-	docker := DockerEngineConnection()
+func LoadDockerContainers() []docker.APIContainers {
+	dockerConnection := DockerEngineConnection()
 
-	containers, err := docker.ListContainers(true, true, "")
+	containers, err := dockerConnection.ListContainers(docker.ListContainersOptions{All: true})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -115,24 +105,12 @@ func LoadDockerContainers() []dockerclient.Container {
 	return containers
 }
 
-// load all infos on container id
-func LoadContainerInfos(id string) (*dockerclient.ContainerInfo, bool) {
-	docker := DockerEngineConnection()
-
-	infos, err := docker.InspectContainer(id)
-	if err != nil {
-		return nil, true
-	}
-
-	return infos, false
-}
-
 // Load all image information clone and commit in Docker
 func GenerateDockerImageList() map[string]DockerType {
 
 	images := make(map[string]DockerType)
 	for _, c := range LoadDockerImages() {
-		i := Image{*c}
+		i := Image{c}
 		d := DockerType(i)
 		images[d.GetId()] = d
 	}

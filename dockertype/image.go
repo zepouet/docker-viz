@@ -1,23 +1,23 @@
 package dockertype
 
 import (
-	"github.com/samalba/dockerclient"
 	"strconv"
 	"github.com/emirpasic/gods/sets/hashset"
+	"github.com/fsouza/go-dockerclient"
 )
 
 type Image struct {
-	dockerclient.Image
+	docker.APIImages
 }
 
 // return the ID of Image
 func (i Image) GetId() string {
-	return i.Id
+	return i.ID
 }
 
 // return the ID of father's Image
 func (i Image) GetFatherId() string {
-	return i.ParentId
+	return i.ParentID
 }
 
 // return the Name of Image
