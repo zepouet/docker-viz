@@ -44,6 +44,18 @@ func StartServer(port int) {
 	})
 
 	// bubble diagram page
+	r.GET("/count/:name", func(c *gin.Context) {
+		switch name := c.Params.ByName("name"); name {
+		case "images":
+			c.String(http.StatusNotFound, strconv.Itoa(dockertype.countDockerImages()))
+		case "containers":
+			c.String(http.StatusNotFound, strconv.Itoa(dockertype.countDockerContainer()))
+		default:
+			c.String(http.StatusNotFound, "404 page not found")
+		}
+	})
+
+	// bubble diagram page
 	r.GET("/bubble/:name", func(c *gin.Context) {
 		var obj gin.H
 		switch name := c.Params.ByName("name"); name {
