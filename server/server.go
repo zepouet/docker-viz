@@ -16,12 +16,13 @@ func StartServer(port int) {
 	// create static route for all files in this folder
 	r.Static("/images", "./asset/images")
 	r.Static("/js", "./asset/js")
+	r.Static("/fonts", "./asset/fonts")
 	r.Static("/css", "./asset/css")
 	var baseTemplate = "templates/"
 
 	// index page
 	r.GET("/", func(c *gin.Context) {
-		obj := gin.H{"title": "Index"}
+		obj := gin.H{"title": "Dashboard"}
 		r.SetHTMLTemplate(template.Must(template.ParseFiles(baseTemplate + "main.tpl", baseTemplate + "index.tpl")))
 		c.HTML(http.StatusOK, "base", obj)
 	})
