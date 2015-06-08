@@ -144,3 +144,14 @@ func GenerateDockerChild(dockerList map[string]DockerType) map[string][]string {
 
 	return dockerImagesChilds
 }
+
+func LoadContainerInfos(Id string) (*docker.Container, bool) {
+	dockerConnection := DockerEngineConnection()
+
+	containerInfo, err := dockerConnection.InspectContainer(Id)
+	if err != nil {
+		return nil, true
+	}
+
+	return containerInfo, false
+}

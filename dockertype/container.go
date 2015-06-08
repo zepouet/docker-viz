@@ -4,6 +4,7 @@ import (
 	"github.com/emirpasic/gods/sets/hashset"
 	"github.com/fsouza/go-dockerclient"
 	"strconv"
+	"strings"
 )
 
 type Container struct {
@@ -32,10 +33,36 @@ func (c Container) GetSize() string {
 
 // return the links of Container
 func (c Container) GetLink() *hashset.Set {
-	return hashset.New()
+	i, _ := LoadContainerInfos(c.ID)
+	links := hashset.New()
+	for _, link := range i.HostConfig.Links {
+		linkSlpit := strings.Split(link, ":")
+		containerLinkName := strings.Split(linkSlpit[0], "/")
+		containerLinked, err := LoadContainerInfos(containerLinkName[1])
+
+		if(err) {
+			continue
+		}
+
+		links.Add(containerLinked.ID)
+	}
+
+	return links
 }
 
 // return the volume link (volume_from) of Container
 func (c Container) GetVolumeFrom() *hashset.Set {
-	return hashset.New()
+	i, _ := LoadContainerInfos(c.ID)
+	links := hashset.New()
+
+	for _, link := range i.HostConfig.VolumesFrom {
+		containerLinked, err := LoadContainerInfos(link)
+
+		if(err) {
+			continue
+		}
+		links.Add(containerLinked.ID)
+	}
+
+	return links
 }
