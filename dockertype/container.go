@@ -5,6 +5,7 @@ import (
 	"github.com/fsouza/go-dockerclient"
 	"strconv"
 	"strings"
+	"fmt"
 )
 
 type Container struct {
@@ -28,6 +29,7 @@ func (c Container) GetName() string {
 
 // return the Hard disk size of Container
 func (c Container) GetSize() string {
+	fmt.Println(c)
 	return strconv.FormatInt(c.SizeRw, 10)
 }
 
@@ -37,8 +39,7 @@ func (c Container) GetLink() *hashset.Set {
 	links := hashset.New()
 	for _, link := range i.HostConfig.Links {
 		linkSlpit := strings.Split(link, ":")
-		containerLinkName := strings.Split(linkSlpit[0], "/")
-		containerLinked, err := LoadContainerInfos(containerLinkName[1])
+		containerLinked, err := LoadContainerInfos(linkSlpit[0][1:len(linkSlpit[0])])
 
 		if(err) {
 			continue
