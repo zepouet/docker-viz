@@ -5,7 +5,7 @@ MAXCONTAINER_LVL_3="10"
 MAXCONTAINER_LINKED="10"
 MAXCONTAINER_VOLUME="10"
 
-docker stop `docker ps -q`
+docker kill `docker ps -a -q`
 docker rm `docker ps -a -q`
 docker rmi `docker images -a -q`
 
