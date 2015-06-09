@@ -18,7 +18,7 @@ func StartServer(port int) {
 	r.Static("/js", "./asset/js")
 	r.Static("/fonts", "./asset/fonts")
 	r.Static("/css", "./asset/css")
-	var baseTemplate = "templates/"
+	var baseTemplate = "asset/templates/"
 
 	// index page
 	r.GET("/", func(c *gin.Context) {

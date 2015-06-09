@@ -145,6 +145,8 @@ func GenerateDockerChild(dockerList map[string]DockerType) map[string][]string {
 	return dockerImagesChilds
 }
 
+
+// return all information from one container
 func LoadContainerInfos(Id string) (*docker.Container, bool) {
 	dockerConnection := DockerEngineConnection()
 
@@ -156,10 +158,12 @@ func LoadContainerInfos(Id string) (*docker.Container, bool) {
 	return containerInfo, false
 }
 
+// return the number of image
 func CountDockerImages() int {
 	return len(GenerateDockerImageList())
 }
 
+// return the number of container
 func CountDockerContainer() int {
 	return len(LoadDockerContainers())
 }
