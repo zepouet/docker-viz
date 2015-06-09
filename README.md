@@ -44,4 +44,4 @@ Use "docker-viz help [command]" for more information about a command
 - [x] Matrice visualization by link & volume
 
 ### Docker Engine
-- [ ] Resources visualization
+- [x] General information visualization
