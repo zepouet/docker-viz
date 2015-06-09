@@ -50,9 +50,9 @@ func StartServer(port int) {
 		var obj gin.H
 		switch name := c.Params.ByName("name"); name {
 		case "images":
-			obj = gin.H{"title": "Buble Container", "type": name}
+			obj = gin.H{"title": "Bubble Container", "type": name}
 		case "containers":
-			obj = gin.H{"title": "Buble Container", "type": name}
+			obj = gin.H{"title": "Bubble Container", "type": name}
 		default:
 			c.String(http.StatusNotFound, "404 page not found")
 		}

@@ -13,7 +13,7 @@
                 z = d3.scale.linear().domain([0, 4]).clamp(true),
                 c = d3.scale.category10().domain(d3.range(10));
 
-        var svg = d3.select("body").append("svg")
+        var svg = d3.select(".main").append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")

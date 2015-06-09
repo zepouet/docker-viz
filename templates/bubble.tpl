@@ -6,10 +6,10 @@
     });
 
     function reloadD3JSon() {
-        $('body').fadeOut("slow", function() {
+        $('.main').fadeOut("slow", function() {
             loadD3JSon()
             $('svg').first().remove()
-            $('body').fadeIn("slow")
+            $('.main').fadeIn("slow")
         })
     }
 
@@ -23,7 +23,7 @@
             .size([diameter, diameter])
             .padding(1.5);
 
-        var svg = d3.select("body").append("svg")
+        var svg = d3.select(".main").append("svg")
             .attr("width", diameter)
             .attr("height", diameter)
             .attr("class", "bubble");
