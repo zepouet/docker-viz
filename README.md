@@ -25,6 +25,7 @@ Available Commands:
   help        Help about any command
 
 Flags:
+  -d, --debug=false: Run docker-viz server in "debug" mode
   -h, --help=false: help for docker-viz
   -p, --port=8080: docker-viz server port
 
