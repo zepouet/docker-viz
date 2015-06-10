@@ -8,8 +8,8 @@
         <link type="text/css" rel="stylesheet" href="/css/stylesheet.css" />
         <link rel="icon" type="image/x-icon" href="/images/docker.ico" />
         <title>Docker-Viz :: {{ .title }}</title>
-        <script src="/js/d3.v3.min.js"></script>
         <script src="/js/jquery-1.11.2.min.js"></script>
+        <script src="/js/d3.v3.min.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -22,13 +22,14 @@
                     <span class="icon-bar"></span>
                   </button>
                   <a class="navbar-brand" href="/">Docker-Viz</a>
+
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                   <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/">Dashboard</a></li>
+                      <li><a href="/">Dashboard</a></li>
                     <li><a href="#">Help</a></li>
                   </ul>
-                </div>
+                < div>
               </div>
             </nav>
 
@@ -49,11 +50,25 @@
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                   <h1 class="page-header">{{ .title }}</h1>
+                  <h2 id="status">Search Docker engine ...</h2>
                   {{ template "content" .}}
                 </div>
               </div>
             </div>
 
+        <script>
+            $.ajax({
+                url: '/docker',
+                type: 'GET',
+                success: function(data) {
+                    if((data == "false")) {
+                        $('#status').text("Docker Engine not found");
+                    } else {
+                        $('#status').remove();
+                    }
+                }
+            });
+        </script>
         <script src="/js/bootstrap.min.js"></script>
     </body>
 </html>

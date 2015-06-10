@@ -20,10 +20,11 @@ func LoadConfig() string {
 }
 
 // Create a Docker engine connection
-func DockerEngineConnection() *docker.Client {
+func DockerEngineConnection() (*docker.Client, error) {
 	dockerConnection, err := docker.NewClient(LoadConfig())
 	if err != nil {
 		log.Print(err)
+		return nil, err;
 	}
 
 	_, err = dockerConnection.Version()
@@ -35,6 +36,7 @@ func DockerEngineConnection() *docker.Client {
 			// if don't use boot2docker, display the first connection error
 			log.Print("boot2docker not detected\n")
 			log.Print(err)
+			return nil, err;
 		} else {
 			// else, user use boot2docker. Generate a certificate for boot2docker connection
 			path := os.Getenv("DOCKER_CERT_PATH")
@@ -48,32 +50,39 @@ func DockerEngineConnection() *docker.Client {
 			if err != nil {
 				// if connection fail, display a boot2docker connection error
 				log.Print(err)
+				return nil, err;
 			}
 
-			return dockerConnection
+			return dockerConnection, nil
 		}
 	}
 
-	return dockerConnection
+	return dockerConnection, nil
 }
 
 // Docker Version
 func DockerVersion() string {
-	dockerConnection := DockerEngineConnection()
-
-	_, err := dockerConnection.Version()
+	dockerConnection, err := DockerEngineConnection()
 	if err != nil {
 		return "Docker Engine not found"
 	}
 
-	return "0.0"
+	v, err := dockerConnection.Version()
+	if err != nil {
+		return "Docker Engine not found"
+	}
+
+	return v.Get("Version")
 }
 
 // Docker Statut
 func DockerStatut() bool {
-	dockerConnection := DockerEngineConnection()
+	dockerConnection, err := DockerEngineConnection()
+	if err != nil {
+		return false
+	}
 
-	_, err := dockerConnection.Version()
+	_, err = dockerConnection.Version()
 	if err != nil {
 		return false
 	}
@@ -83,11 +92,14 @@ func DockerStatut() bool {
 
 // load images list
 func LoadDockerImages() []docker.APIImages {
-	dockerConnection := DockerEngineConnection()
+	dockerConnection, err := DockerEngineConnection()
+	if err != nil {
+		return []docker.APIImages{}
+	}
 
 	images, err := dockerConnection.ListImages(docker.ListImagesOptions{All: false})
 	if err != nil {
-		log.Fatal(err)
+		return []docker.APIImages{}
 	}
 
 	return images
@@ -95,11 +107,14 @@ func LoadDockerImages() []docker.APIImages {
 
 // load containers list
 func LoadDockerContainers() []docker.APIContainers {
-	dockerConnection := DockerEngineConnection()
+	dockerConnection, err := DockerEngineConnection()
+	if err != nil {
+		return []docker.APIContainers{}
+	}
 
 	containers, err := dockerConnection.ListContainers(docker.ListContainersOptions{All: true})
 	if err != nil {
-		log.Fatal(err)
+		return []docker.APIContainers{}
 	}
 
 	return containers
@@ -148,7 +163,10 @@ func GenerateDockerChild(dockerList map[string]DockerType) map[string][]string {
 
 // return all information from one container
 func LoadContainerInfos(Id string) (*docker.Container, bool) {
-	dockerConnection := DockerEngineConnection()
+	dockerConnection, err := DockerEngineConnection()
+	if err != nil {
+		return nil, true
+	}
 
 	containerInfo, err := dockerConnection.InspectContainer(Id)
 	if err != nil {
