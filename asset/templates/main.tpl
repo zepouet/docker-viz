@@ -29,7 +29,6 @@
                       <li><a href="/">Dashboard</a></li>
                     <li><a href="#">Help</a></li>
                   </ul>
-                < div>
               </div>
             </nav>
 
