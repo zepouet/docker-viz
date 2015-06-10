@@ -19,5 +19,6 @@ func TestContainerStruct(t *testing.T) {
 	assert.Equal(t, Img.GetName(), "THIS_NAME")
 	assert.Equal(t, Img.GetFatherId(), "THIS_IMAGE")
 	assert.Equal(t, Img.GetSize(), "100")
-
+	assert.Equal(t, Img.GetLink().Size(), 0)
+	assert.Equal(t, Img.GetVolumeFrom().Size(), 0)
 }
