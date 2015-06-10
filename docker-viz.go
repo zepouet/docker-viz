@@ -9,6 +9,7 @@ import (
 
 func main() {
 	var port int
+	var debug bool
 	version := "0.7.0"
 
 	// create version commande
@@ -30,10 +31,11 @@ func main() {
 		Long: `docker-viz server is a web server who return a data visualization for different informations on Docker containers and images.`,
 
 		Run: func(cmd *cobra.Command, args []string) {
-			server.StartServer(port);
+			server.StartServer(port, debug);
 		},
 	}
 	rootCmd.Flags().IntVarP(&port, "port", "p", 8080, "docker-viz server port")
+	rootCmd.Flags().BoolVarP(&debug, "debug", "d", false, "Run docker-viz server in \"debug\" mode")
 	rootCmd.AddCommand(versionCmd)
 	rootCmd.Execute()
 }

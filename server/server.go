@@ -10,9 +10,13 @@ import (
 )
 
 // Function who start the web server of Docker-Viz
-func StartServer(port int) {
+func StartServer(port int, debug bool) {
+	if (debug) {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	r := gin.Default()
-
 	// create static route for all files in this folder
 	r.Static("/images", "./asset/images")
 	r.Static("/js", "./asset/js")
