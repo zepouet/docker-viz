@@ -178,7 +178,7 @@ func LoadContainerInfos(Id string) (*docker.Container, bool) {
 
 // return the number of image
 func CountDockerImages() int {
-	return len(GenerateDockerImageList())
+	return len(LoadDockerImages())
 }
 
 // return the number of container
