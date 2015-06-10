@@ -7,9 +7,13 @@ import (
 )
 
 func TestDockerEngineConnection(t *testing.T) {
-	dockerClient := DockerEngineConnection()
+	dockerClient, err := DockerEngineConnection()
 
-	_, err := dockerClient.Version()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = dockerClient.Version()
 
 	if err != nil {
 		log.Fatal(err)
