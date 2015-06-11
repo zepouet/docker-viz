@@ -41,7 +41,6 @@ Use "docker-viz help [command]" for more information about a command
 
 ### Docker Containers
 - [x] Bubble visualization sort by images & size
-- [ ] Chord visualization sort by link, volume
 - [x] Matrice visualization by link & volume
 
 ### Docker Engine
