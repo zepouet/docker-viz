@@ -23,9 +23,9 @@ func TestDockerEngineConnection(t *testing.T) {
 
 func TestLoader(t *testing.T) {
 	images := LoadDockerImages()
-	assert.Equal(t, len(images), 48)
-	assert.Equal(t, CountDockerImages(), 48)
-	assert.Equal(t, len(GenerateDockerImageList()), 48)
+	assert.Equal(t, len(images), 50)
+	assert.Equal(t, CountDockerImages(), 50)
+	assert.Equal(t, len(GenerateDockerImageList()), 50)
 
 	containers := LoadDockerContainers()
 	assert.Equal(t, len(containers), 13)
