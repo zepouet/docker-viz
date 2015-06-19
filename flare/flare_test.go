@@ -9,10 +9,10 @@ import (
 
 func TestMakeJsonFatherWithImage(t *testing.T) {
 	images := dockertype.GenerateDockerImageList()
-	assert.Equal(t, len(images), 48)
+	assert.Equal(t, len(images), 50)
 
 	childs := dockertype.GenerateDockerChild(images)
-	assert.Equal(t, len(childs), 12)
+	assert.Equal(t, len(childs), 14)
 	assert.Equal(t, len(childs["Docker"]), 1)
 
 	json := MakeJsonFather("Docker", childs, images)

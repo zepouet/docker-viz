@@ -10,7 +10,7 @@ import (
 func main() {
 	var port int
 	var debug bool
-	version := "0.7.0"
+	version := "0.8.2"
 
 	// create version commande
 	var versionCmd = &cobra.Command{
