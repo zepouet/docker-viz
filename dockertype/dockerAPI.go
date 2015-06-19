@@ -97,7 +97,7 @@ func LoadDockerImages() []docker.APIImages {
 		return []docker.APIImages{}
 	}
 
-	images, err := dockerConnection.ListImages(docker.ListImagesOptions{All: false})
+	images, err := dockerConnection.ListImages(docker.ListImagesOptions{All: true})
 	if err != nil {
 		return []docker.APIImages{}
 	}

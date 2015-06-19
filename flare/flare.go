@@ -21,8 +21,13 @@ func MakeJsonFather(name string, dockerFils map[string][]string, dockerList map[
 		}
 		// if have a children
 		if _, ok := dockerFils[fils]; ok {
-			flare += "{\"name\": \"" + dockerList[fils].GetName() + "\", \"children\": ["
-			flare += MakeJsonFather(fils, dockerFils, dockerList) + "]}"
+			if dockerList[fils].GetName() == "<none>:<none>" {
+				flare += MakeJsonFather(fils, dockerFils, dockerList)
+			} else {
+				flare += "{\"name\": \"" + dockerList[fils].GetName() + "\", \"children\": ["
+				flare += MakeJsonFather(fils, dockerFils, dockerList)
+				flare += "]}"
+			}
 		} else {
 			if dockerList[fils].GetSize() == "0" {
 				continue
